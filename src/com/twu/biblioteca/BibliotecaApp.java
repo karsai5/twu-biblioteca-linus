@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 public class BibliotecaApp {
 
-    private ArrayList<String> books = new ArrayList<String>();
+    private ArrayList<Book> books = new ArrayList<Book>();
 
     public BibliotecaApp() {
         this.start();
     }
 
     private void initialiseBookList() {
-        books.add("Hitchhiker's Guide to the Galaxy");
-        books.add("The Princess Bride");
-        books.add("The Sparrow");
-        books.add("Ender's Game");
-        books.add("The Moon is a Harsh Mistress");
-        books.add("The Name of the Wind");
+        books.add(new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams","1979"));
+        books.add(new Book("The Princess Bride", "William Goldman", "1973"));
+        books.add(new Book("The Sparrow", "Mary Doria Russell", "1996"));
+        books.add(new Book("Ender's Game", "Orson Scott Card", "1985"));
+        books.add(new Book("The Moon is a Harsh Mistress", "Robert A. Heinlein", "1966"));
+        books.add(new Book("The Name of the Wind", "Patrick Rothfuss", "2007"));
     }
 
     public void printWelcome() {
@@ -32,14 +32,12 @@ public class BibliotecaApp {
     }
 
     public void printBooks() {
-        for (String book : books){
-           System.out.println(book);
+        for (Book book : books){
+           System.out.println(book.toString());
         }
     }
 
     public static void main(String[] args) {
         BibliotecaApp ba = new BibliotecaApp();
-        ba.start();
-        ba.printBooks();
     }
 }

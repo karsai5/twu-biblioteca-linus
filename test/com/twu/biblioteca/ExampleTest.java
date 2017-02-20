@@ -47,15 +47,32 @@ public class ExampleTest {
         assertTrue(outContent.toString().contains("Biblioteca"));
     }
 
+    private void checkForBook(String title){
+        assertTrue("Couldn't find book in output: " + title, outContent.toString().contains(title));
+    }
+
     @Test
     public void checkBooksPrintCorrectly() {
         BibliotecaApp ba = new BibliotecaApp();
-        assertTrue(outContent.toString().contains("The Princess Bride"));
-        assertTrue(outContent.toString().contains("Hitchhiker's Guide to the Galaxy"));
-        assertTrue(outContent.toString().contains("The Princess Bride"));
-        assertTrue(outContent.toString().contains("The Sparrow"));
-        assertTrue(outContent.toString().contains("Ender's Game"));
-        assertTrue(outContent.toString().contains("The Moon is a Harsh Mistress"));
-        assertTrue(outContent.toString().contains("The Name of the Wind"));
+        checkForBook("The Princess Bride");
+        checkForBook("Hitchhiker's Guide to the Galaxy");
+        checkForBook("The Princess Bride");
+        checkForBook("The Sparrow");
+        checkForBook("Ender's Game");
+        checkForBook("The Moon is a Harsh Mistress");
+        checkForBook("The Name of the Wind");
+    }
+
+    private void checkForString(String text){
+        assertTrue("Couldn't find text in output: " + text, outContent.toString().contains("Patrick Rothfuss"));
+    }
+
+    @Test
+    public void checkBooksHaveYearAndAuthor() {
+        BibliotecaApp ba = new BibliotecaApp();
+        checkForString("Patrick Rothfuss");
+        checkForString("2007");
+        checkForString("Dougla;s Adams");
+        checkForString("1979");
     }
 }
