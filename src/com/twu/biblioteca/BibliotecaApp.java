@@ -8,7 +8,6 @@ public class BibliotecaApp {
     private ArrayList<Book> books = new ArrayList<Book>();
 
     public BibliotecaApp() {
-        initialiseBookList();
     }
 
     private void printInvalidMenuOption() {
@@ -57,15 +56,6 @@ public class BibliotecaApp {
         Scanner reader = new Scanner(System.in);  // Reading from System.in
         System.out.println("Enter the name of the book you want to checkout:");
         checkout(reader.nextLine());
-    }
-
-    private void initialiseBookList() {
-        books.add(new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams", "1979"));
-        books.add(new Book("The Princess Bride", "William Goldman", "1973"));
-        books.add(new Book("The Sparrow", "Mary Doria Russell", "1996"));
-        books.add(new Book("Ender's Game", "Orson Scott Card", "1985"));
-        books.add(new Book("The Moon is a Harsh Mistress", "Robert A. Heinlein", "1966"));
-        books.add(new Book("The Name of the Wind", "Patrick Rothfuss", "2007"));
     }
 
     public void printWelcome() {

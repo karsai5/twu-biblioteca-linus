@@ -19,6 +19,12 @@ public class BibliotecaAppTests {
     public static final String MENU_CHECKOUT_BOOK = "2";
     public static final String MENU_OPTION_QUIT = "3";
     public static final String HITCHHIKER_S_GUIDE_TO_THE_GALAXY = "Hitchhiker's Guide to the Galaxy";
+    public static final String THE_HANDMAID_S_TALE = "The Handmaid's Tale";
+    public static final String THE_PRINCESS_BRIDE = "The Princess Bride";
+    public static final String THE_SPARROW = "The Sparrow";
+    public static final String ENDER_S_GAME = "Ender's Game";
+    public static final String THE_MOON_IS_A_HARSH_MISTRESS = "The Moon is a Harsh Mistress";
+    public static final String THE_NAME_OF_THE_WIND = "The Name of the Wind";
     BibliotecaApp biblioteca;
 
     // Used for grabbing System.out.println output so it can be asserted
@@ -37,7 +43,22 @@ public class BibliotecaAppTests {
     @Before
     public void setUpStreams() throws IOException {
         biblioteca = new BibliotecaApp();
+        initialiseBooks();
         systemOutRule.clearLog();
+    }
+
+    private void initialiseBooks() {
+        biblioteca.addBook(new Book(HITCHHIKER_S_GUIDE_TO_THE_GALAXY, "Douglas Adams", "1979"));
+        biblioteca.addBook(new Book(THE_PRINCESS_BRIDE, "William Goldman", "1973"));
+        biblioteca.addBook(new Book(THE_SPARROW, "Mary Doria Russell", "1996"));
+        biblioteca.addBook(new Book(ENDER_S_GAME, "Orson Scott Card", "1985"));
+        biblioteca.addBook(new Book(THE_MOON_IS_A_HARSH_MISTRESS, "Robert A. Heinlein", "1966"));
+        biblioteca.addBook(new Book(THE_NAME_OF_THE_WIND, "Patrick Rothfuss", "2007"));
+
+        // create book that's checked out
+        Book handmaidsTale = new Book(THE_HANDMAID_S_TALE, "Margaret Atwood", "1986");
+        handmaidsTale.checkout();
+        biblioteca.addBook(handmaidsTale);
     }
 
     private void checkForWelcomeMessageText() {
@@ -46,13 +67,12 @@ public class BibliotecaAppTests {
     }
 
     private void checkForBookTitleText() {
-        checkForBook("The Princess Bride");
         checkForBook(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
-        checkForBook("The Princess Bride");
-        checkForBook("The Sparrow");
-        checkForBook("Ender's Game");
-        checkForBook("The Moon is a Harsh Mistress");
-        checkForBook("The Name of the Wind");
+        checkForBook(THE_PRINCESS_BRIDE);
+        checkForBook(THE_SPARROW);
+        checkForBook(ENDER_S_GAME);
+        checkForBook(THE_MOON_IS_A_HARSH_MISTRESS);
+        checkForBook(THE_NAME_OF_THE_WIND);
     }
 
     private void checkForAuthorAndYearText() {
@@ -147,21 +167,13 @@ public class BibliotecaAppTests {
 
     @Test
     public void return_book_handmaids_tale() {
-        // create checkout book
-        String handmaidsTaleTitle = "The Handmaid's Taile";
-        Book handmaidsTale = new Book(handmaidsTaleTitle, "Margaret Atwood", "1986");
-        handmaidsTale.checkout();
-
-        // add checkout out book
-        biblioteca.addBook(handmaidsTale);
-        biblioteca.printBooks();
-        checkStringMissing(handmaidsTaleTitle);
+        checkStringMissing(THE_HANDMAID_S_TALE);
 
         // return book
         systemOutRule.clearLog();
-        biblioteca.returnBook(handmaidsTaleTitle);
+        biblioteca.returnBook(THE_HANDMAID_S_TALE);
         biblioteca.printBooks();
-        checkForString(handmaidsTaleTitle);
+        checkForString(THE_HANDMAID_S_TALE);
     }
 
     @Test
