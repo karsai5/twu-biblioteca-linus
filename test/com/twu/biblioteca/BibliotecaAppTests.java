@@ -2,21 +2,33 @@ package com.twu.biblioteca;
 
 
 import org.junit.*;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemOutRule;
+import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import java.io.*;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
 
 public class BibliotecaAppTests {
 
     BibliotecaApp biblioteca;
 
+    // Used for grabbing System.out.println output so it can be asserted
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
 
+    // Used for emulating user input
+    @Rule
+    public final TextFromStandardInputStream systemInMock
+            = emptyStandardInputStream();
+
+    // Used for cecking if the system exited correctly
+    @Rule
+    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
     @Before
     public void setUpStreams() throws IOException {
@@ -24,21 +36,12 @@ public class BibliotecaAppTests {
         systemOutRule.clearLog();
     }
 
-    @Test
-    public void check_welcome_message() {
-        biblioteca.printWelcome();
+    private void checkForWelcomeMessageText() {
         assertTrue(systemOutRule.getLog().contains("Welcome"));
         assertTrue(systemOutRule.getLog().contains("Biblioteca"));
     }
 
-    private void checkForBook(String title){
-        assertTrue("Couldn't find book in output: " + title, systemOutRule.getLog().contains(title));
-    }
-
-    @Test
-    public void check_books_titles_are_printed() {
-        BibliotecaApp ba = new BibliotecaApp();
-        ba.printBooks();
+    private void checkForBookTitleText() {
         checkForBook("The Princess Bride");
         checkForBook("Hitchhiker's Guide to the Galaxy");
         checkForBook("The Princess Bride");
@@ -48,47 +51,64 @@ public class BibliotecaAppTests {
         checkForBook("The Name of the Wind");
     }
 
-    private void checkForString(String text){
-        assertTrue("Couldn't find text in output: " + text, systemOutRule.getLog().contains(text));
-    }
-
-    @Test
-    public void check_books_have_author_and_year() {
-        BibliotecaApp ba = new BibliotecaApp();
-        ba.printBooks();
+    private void checkForAuthorAndYearText() {
         checkForString("Patrick Rothfuss");
         checkForString("2007");
         checkForString("Douglas Adams");
         checkForString("1979");
     }
 
-    @Test
-    public void check_menu_prints() throws Exception {
-        BibliotecaApp ba  = new BibliotecaApp();
-        ba.printMenu();
+    private void checkForMainMenuText() {
         checkForString("Main Menu");
         checkForString("List Books");
     }
 
-    @Ignore
-    @Test(timeout = 2000)
-    public void check_userflow_viewing_book_list() throws Exception {
-        String simulatedUserInput = "1" + System.getProperty("line.separator")
-                + "2" + System.getProperty("line.separator");
+    private void checkForBook(String title){
+        assertTrue("Couldn't find book in output: " + title, systemOutRule.getLog().contains(title));
+    }
 
-        InputStream savedStandardInputStream = System.in;
-        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-
-        BibliotecaApp ba  = new BibliotecaApp();
-        ba.start();
-        checkForString("Hitchhiker's Guide to the Galaxy");
-
-        System.setIn(savedStandardInputStream);
+    private void checkForString(String text){
+        assertTrue("Couldn't find text in output: " + text, systemOutRule.getLog().contains(text));
     }
 
     @Test
-    public void overrideProperty() {
-        System.out.print("hello world");
-        assertEquals("hello world", systemOutRule.getLog());
+    public void check_welcome_message() {
+        biblioteca.printWelcome();
+        checkForWelcomeMessageText();
+    }
+
+    @Test
+    public void check_books_titles_are_printed() {
+        biblioteca.printBooks();
+        checkForBookTitleText();
+    }
+
+    @Test
+    public void check_books_have_author_and_year() {
+        biblioteca.printBooks();
+        checkForAuthorAndYearText();
+    }
+
+    @Test
+    public void check_menu_prints() throws Exception {
+        biblioteca.printMenu();
+        checkForMainMenuText();
+    }
+
+    @Test
+    public void check_userflow_show_menu_and_quit() throws Exception {
+        systemInMock.provideLines("2");
+        exit.expectSystemExit();
+        biblioteca.start();
+        checkForMainMenuText();
+    }
+
+    @Test
+    public void check_userflow_viewing_book_list() throws Exception {
+        systemInMock.provideLines("1","2");
+        exit.expectSystemExit();
+        biblioteca.start();
+        checkForMainMenuText();
+        checkForBookTitleText();
     }
 }
