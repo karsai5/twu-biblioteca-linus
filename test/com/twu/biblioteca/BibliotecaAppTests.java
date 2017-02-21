@@ -7,14 +7,12 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Method;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 
-public class ExampleTest {
+public class BibliotecaAppTests {
 
     // used for checking output of System.out.println
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -23,7 +21,7 @@ public class ExampleTest {
     @Before
     public void setUpStreams() {
         // reset streams for checking output
-        resetStreams();
+        clearSystemOutBuffers();
     }
 
     @After
@@ -33,7 +31,7 @@ public class ExampleTest {
         System.setErr(null);
     }
 
-    public void resetStreams() {
+    public void clearSystemOutBuffers() {
         // create streams for checking output
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
@@ -41,7 +39,7 @@ public class ExampleTest {
         errContent.reset();
     }
     @Test
-    public void checkWelcomeMessage() {
+    public void check_welcome_message_is_printed() {
         new BibliotecaApp();
         assertTrue(outContent.toString().contains("Welcome"));
         assertTrue(outContent.toString().contains("Biblioteca"));
@@ -52,8 +50,10 @@ public class ExampleTest {
     }
 
     @Test
-    public void checkBooksPrintCorrectly() {
+    public void check_books_titles_are_printed() {
         BibliotecaApp ba = new BibliotecaApp();
+        clearSystemOutBuffers();
+        ba.printBooks();
         checkForBook("The Princess Bride");
         checkForBook("Hitchhiker's Guide to the Galaxy");
         checkForBook("The Princess Bride");
@@ -68,8 +68,10 @@ public class ExampleTest {
     }
 
     @Test
-    public void checkBooksHaveYearAndAuthor() {
+    public void check_books_have_author_and_year() {
         BibliotecaApp ba = new BibliotecaApp();
+        clearSystemOutBuffers();
+        ba.printBooks();
         checkForString("Patrick Rothfuss");
         checkForString("2007");
         checkForString("Dougla;s Adams");
