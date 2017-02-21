@@ -65,6 +65,18 @@ public class BibliotecaAppTests {
         checkForString("List Books");
     }
 
+    private int stringCount(String text) {
+        String input = systemOutRule.getLog();
+        int index = input.indexOf(text);
+        int count = 0;
+        while (index != -1){
+            count++;
+            input = input.substring(index + 1);
+            index = input.indexOf(text);
+        }
+        return count;
+    }
+
     private void checkForBook(String title){
         assertTrue("Couldn't find book in output: " + title, systemOutRule.getLog().contains(title));
     }
@@ -117,5 +129,13 @@ public class BibliotecaAppTests {
         systemInMock.provideLines("bananas", MENU_OPTION_QUIT);
         biblioteca.start();
         checkForString("Select a valid option!");
+    }
+
+    @Test
+    public void check_userflow_loop_menu_three_times() {
+        systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
+        biblioteca.start();
+
+        assertEquals(stringCount("Hitchhiker's Guide to the Galaxy"), 3);
     }
 }
