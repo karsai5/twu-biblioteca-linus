@@ -27,6 +27,10 @@ public class BibliotecaApp {
                 if(n == 1) {
                     printBooks();
                 } else if (n==2) {
+                    System.out.println("Enter the name of the book you want to checkout:");
+                    reader.nextLine(); // this is to get rid of \n leftover from nextInt();
+                    checkout(reader.nextLine());
+                } else if (n==3) {
                     break;
                 } else {
                     printInvalidMenuOption();
@@ -69,13 +73,16 @@ public class BibliotecaApp {
         System.out.println("Main Menu");
         System.out.println("=========");
         System.out.println("1. List Books");
-        System.out.println("2. Quit");
+        System.out.println("2. Checkout Book");
+        System.out.println("3. Quit");
     }
 
     public void checkout(String title) {
         for (Book book : books){
-            if (book.getTitle().equals(title))
+            if (book.getTitle().equals(title)) {
                 book.checkout();
+                System.out.println("Thank you! Enjoy the book.");
+            }
         }
     }
 }

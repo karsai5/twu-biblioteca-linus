@@ -16,6 +16,7 @@ public class BibliotecaAppTests {
     public static final String MENU_OPTION_LIST_BOOKS = "1";
     public static final String MENU_CHECKOUT_BOOK = "2";
     public static final String MENU_OPTION_QUIT = "3";
+    public static final String HITCHHIKER_S_GUIDE_TO_THE_GALAXY = "Hitchhiker's Guide to the Galaxy";
     BibliotecaApp biblioteca;
 
     // Used for grabbing System.out.println output so it can be asserted
@@ -44,7 +45,7 @@ public class BibliotecaAppTests {
 
     private void checkForBookTitleText() {
         checkForBook("The Princess Bride");
-        checkForBook("Hitchhiker's Guide to the Galaxy");
+        checkForBook(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
         checkForBook("The Princess Bride");
         checkForBook("The Sparrow");
         checkForBook("Ender's Game");
@@ -119,25 +120,32 @@ public class BibliotecaAppTests {
 
         biblioteca.printBooks();
         oldOutputLength = systemOutRule.getLog().split("\n").length;
-        checkForString("Hitchhiker's Guide to the Galaxy");
-        biblioteca.checkout("Hitchhiker's Guide to the Galaxy");
+        checkForString(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
+        biblioteca.checkout(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
 
         systemOutRule.clearLog();
         biblioteca.printBooks();
         newOutputLength = systemOutRule.getLog().split("\n").length;
-        checkStringMissing("Hitchhiker's Guide to the Galaxy");
+        checkStringMissing(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
         assertEquals(oldOutputLength - 1, newOutputLength);
     }
 
     @Test
-    public void check_userflow_show_menu_and_quit() throws Exception {
+    public void check_for_friendly_message_when_checking_out_book() {
+        biblioteca.checkout(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
+        checkForString("Thank you!");
+        checkForString("Enjoy the book");
+    }
+
+    @Test
+    public void userflow_show_menu_and_quit() throws Exception {
         systemInMock.provideLines(MENU_OPTION_QUIT);
         biblioteca.start();
         checkForMainMenuText();
     }
 
     @Test
-    public void check_userflow_viewing_book_list() throws Exception {
+    public void userflow_viewing_book_list() throws Exception {
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
         checkForMainMenuText();
@@ -145,17 +153,27 @@ public class BibliotecaAppTests {
     }
 
     @Test
-    public void check_userflow_loop_menu_three_times() {
+    public void userflow_loop_menu_three_times() {
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
 
-        assertEquals(stringCount("Hitchhiker's Guide to the Galaxy"), 3);
+        assertEquals(stringCount(HITCHHIKER_S_GUIDE_TO_THE_GALAXY), 3);
     }
 
     @Test
-    public void incorrect_menu_option() throws Exception {
+    public void userflow_incorrect_menu_option() throws Exception {
         systemInMock.provideLines("bananas", MENU_OPTION_QUIT);
         biblioteca.start();
         checkForString("Select a valid option!");
+    }
+
+    @Test
+    public void userflow_checkout_hitchhikers_guide() {
+        systemInMock.provideLines(MENU_CHECKOUT_BOOK, HITCHHIKER_S_GUIDE_TO_THE_GALAXY, MENU_OPTION_QUIT);
+        biblioteca.start();
+
+        systemOutRule.clearLog();
+        biblioteca.printBooks();
+        checkStringMissing(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
     }
 }
