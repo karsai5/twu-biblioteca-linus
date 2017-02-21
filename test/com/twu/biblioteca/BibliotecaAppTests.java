@@ -183,6 +183,12 @@ public class BibliotecaAppTests {
     }
 
     @Test
+    public void print_number_of_books_hidden() {
+        biblioteca.printBooks();
+        checkForString("Hiding 1 book(s) because they're checked out.");
+    }
+
+    @Test
     public void userflow_show_menu_and_quit() throws Exception {
         exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_QUIT);

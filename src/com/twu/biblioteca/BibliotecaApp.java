@@ -102,10 +102,16 @@ public class BibliotecaApp {
     }
 
     public void printBooks() {
+        int numOfCheckedOutBooks = 0;
         for (Book book : books) {
-            if (!book.isCheckedOut())
+            if (!book.isCheckedOut()) {
                 System.out.println(book.toString());
+            } else {
+                ++numOfCheckedOutBooks;
+            }
         }
+        if (numOfCheckedOutBooks > 0)
+            System.out.printf("Hiding %d book(s) because they're checked out.\n", numOfCheckedOutBooks);
     }
 
     public Book findBook(String title) {
