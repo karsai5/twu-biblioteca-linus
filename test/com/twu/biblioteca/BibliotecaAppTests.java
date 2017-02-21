@@ -17,7 +17,9 @@ public class BibliotecaAppTests {
 
     public static final String MENU_OPTION_LIST_BOOKS = "1";
     public static final String MENU_CHECKOUT_BOOK = "2";
-    public static final String MENU_OPTION_QUIT = "3";
+    public static final String MENU_OPTION_QUIT = "4";
+    private static final String MENU_RETURN_BOOK = "3";
+
     public static final String HITCHHIKER_S_GUIDE_TO_THE_GALAXY = "Hitchhiker's Guide to the Galaxy";
     public static final String THE_HANDMAID_S_TALE = "The Handmaid's Tale";
     public static final String THE_PRINCESS_BRIDE = "The Princess Bride";
@@ -43,6 +45,10 @@ public class BibliotecaAppTests {
     @Before
     public void setUpStreams() throws IOException {
         biblioteca = new BibliotecaApp();
+        // clear book collection and initialise test books.
+        // although these are identical at time of writing, I didn't
+        // want the tests to rely on data initialised in the app class.
+        biblioteca.clearBooks();
         initialiseBooks();
         systemOutRule.clearLog();
     }
@@ -229,4 +235,15 @@ public class BibliotecaAppTests {
 
         checkForString("That book is not available.");
     }
+
+    @Test
+    public void userflow_return_book() {
+        exit.expectSystemExit();
+        systemInMock.provideLines(MENU_RETURN_BOOK, THE_HANDMAID_S_TALE, MENU_OPTION_QUIT);
+        biblioteca.start();
+
+        Book handmaidsTale = biblioteca.findBook(THE_HANDMAID_S_TALE);
+        assertFalse(handmaidsTale.isCheckedOut());
+    }
+
 }

@@ -5,9 +5,37 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
+    private static final int MENU_OPTION_LIST_BOOKS = 1;
+    private static final int MENU_CHECKOUT_BOOK = 2;
+    private static final int MENU_RETURN_BOOK = 3;
+    private static final int MENU_OPTION_QUIT = 4;
+
+    public static final String HITCHHIKER_S_GUIDE_TO_THE_GALAXY = "Hitchhiker's Guide to the Galaxy";
+    public static final String THE_HANDMAID_S_TALE = "The Handmaid's Tale";
+    public static final String THE_PRINCESS_BRIDE = "The Princess Bride";
+    public static final String THE_SPARROW = "The Sparrow";
+    public static final String ENDER_S_GAME = "Ender's Game";
+    public static final String THE_MOON_IS_A_HARSH_MISTRESS = "The Moon is a Harsh Mistress";
+    public static final String THE_NAME_OF_THE_WIND = "The Name of the Wind";
+
     private ArrayList<Book> books = new ArrayList<Book>();
 
     public BibliotecaApp() {
+        initialiseBookList();
+    }
+
+    private void initialiseBookList() {
+        addBook(new Book(HITCHHIKER_S_GUIDE_TO_THE_GALAXY, "Douglas Adams", "1979"));
+        addBook(new Book(THE_PRINCESS_BRIDE, "William Goldman", "1973"));
+        addBook(new Book(THE_SPARROW, "Mary Doria Russell", "1996"));
+        addBook(new Book(ENDER_S_GAME, "Orson Scott Card", "1985"));
+        addBook(new Book(THE_MOON_IS_A_HARSH_MISTRESS, "Robert A. Heinlein", "1966"));
+        addBook(new Book(THE_NAME_OF_THE_WIND, "Patrick Rothfuss", "2007"));
+
+        // create book that's checked out
+        Book handmaidsTale = new Book(THE_HANDMAID_S_TALE, "Margaret Atwood", "1986");
+        handmaidsTale.checkout();
+        addBook(handmaidsTale);
     }
 
     private void printInvalidMenuOption() {
@@ -36,20 +64,29 @@ public class BibliotecaApp {
             int menuNumber = getMenuOption();
 
             switch (menuNumber) {
-                case 1:
+                case MENU_OPTION_LIST_BOOKS:
                     printBooks();
                     break;
-                case 2:
+                case MENU_CHECKOUT_BOOK:
                     checkoutBookInteractively();
                     break;
-                case 3:
+                case MENU_OPTION_QUIT:
                     System.exit(0);
+                    break;
+                case MENU_RETURN_BOOK:
+                    returnBookInteractively();
                     break;
                 default:
                     printInvalidMenuOption();
 
             }
         }
+    }
+
+    private void returnBookInteractively() {
+        Scanner reader = new Scanner(System.in);
+        System.out.println("Enter the name of the book you want to return:");
+        returnBook(reader.nextLine());
     }
 
     private void checkoutBookInteractively() {
@@ -90,7 +127,8 @@ public class BibliotecaApp {
         System.out.println("=========");
         System.out.println("1. List Books");
         System.out.println("2. Checkout Book");
-        System.out.println("3. Quit");
+        System.out.println("3. Return Book");
+        System.out.println("4. Quit");
     }
 
     public void checkout(String title) {
@@ -106,6 +144,11 @@ public class BibliotecaApp {
     public void addBook(Book book) {
         books.add(book);
     }
+
+    public void clearBooks() {
+        books.clear();
+    }
+
 
     public void returnBook(String title) {
         Book bookToReturn = findBook(title);
