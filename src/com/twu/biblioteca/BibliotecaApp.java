@@ -49,7 +49,7 @@ public class BibliotecaApp {
 
     public void printWelcome() {
         System.out.println("Welcome to Biblioteca, the home of books.");
-        System.out.println("Made my Linus Karsai for TWU.");
+        System.out.println("Made by Linus Karsai for TWU.");
         System.out.println("--");
     }
 
