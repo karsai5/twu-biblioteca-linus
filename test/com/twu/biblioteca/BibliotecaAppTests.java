@@ -15,6 +15,8 @@ import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emp
 
 public class BibliotecaAppTests {
 
+    public static final String MENU_OPTION_LIST_BOOKS = "1";
+    public static final String MENU_OPTION_QUIT = "2";
     BibliotecaApp biblioteca;
 
     // Used for grabbing System.out.println output so it can be asserted
@@ -97,18 +99,23 @@ public class BibliotecaAppTests {
 
     @Test
     public void check_userflow_show_menu_and_quit() throws Exception {
-        systemInMock.provideLines("2");
-        exit.expectSystemExit();
+        systemInMock.provideLines(MENU_OPTION_QUIT);
         biblioteca.start();
         checkForMainMenuText();
     }
 
     @Test
     public void check_userflow_viewing_book_list() throws Exception {
-        systemInMock.provideLines("1","2");
-        exit.expectSystemExit();
+        systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
         checkForMainMenuText();
         checkForBookTitleText();
+    }
+
+    @Test
+    public void incorrect_menu_option() throws Exception {
+        systemInMock.provideLines("bananas", MENU_OPTION_QUIT);
+        biblioteca.start();
+        checkForString("Select a valid option!");
     }
 }
