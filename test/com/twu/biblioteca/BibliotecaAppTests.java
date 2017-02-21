@@ -189,6 +189,12 @@ public class BibliotecaAppTests {
     }
 
     @Test
+    public void check_for_message_when_returning_handmaids_tale() {
+        biblioteca.returnBook(THE_HANDMAID_S_TALE);
+        checkForString("Thank you for returning the book.");
+    }
+
+    @Test
     public void userflow_show_menu_and_quit() throws Exception {
         exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_QUIT);

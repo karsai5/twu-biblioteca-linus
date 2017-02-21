@@ -159,6 +159,7 @@ public class BibliotecaApp {
     public void returnBook(String title) {
         Book bookToReturn = findBook(title);
         if (bookToReturn != null) {
+            System.out.println("Thank you for returning the book.");
             bookToReturn.returnBook();
         }
     }
