@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class BibliotecaApp {
 
@@ -10,9 +11,31 @@ public class BibliotecaApp {
         initialiseBookList();
     }
 
+    private void printInvalidMenuOption() {
+        System.out.println("Select a valid option!");
+    }
+
     public void start() {
         printWelcome();
-        printBooks();
+        while(true){
+            printMenu();
+            int n = -1; // Scans the next token of the input as an int.
+            try {
+                Scanner reader = new Scanner(System.in);  // Reading from System.in
+                System.out.println("Enter a number: ");
+                n = reader.nextInt();
+                if(n == 1) {
+                    printBooks();
+                } else if (n==2) {
+                    break;
+                } else {
+                    printInvalidMenuOption();
+                }
+            } catch (Exception e) {
+                printInvalidMenuOption();
+            }
+
+        }
     }
 
     private void initialiseBookList() {
@@ -38,5 +61,13 @@ public class BibliotecaApp {
 
     public static void main(String[] args) {
         BibliotecaApp ba = new BibliotecaApp();
+        ba.start();
+    }
+
+    public void printMenu() {
+        System.out.println("Main Menu");
+        System.out.println("=========");
+        System.out.println("1. List Books");
+        System.out.println("2. Quit");
     }
 }
