@@ -16,9 +16,18 @@ public class Book {
         return yearPublished;
     }
 
+    public boolean isCheckedOut() {
+        return checkedOut;
+    }
+
+    public void checkout() {
+        checkedOut = true;
+    }
+
     private final String author;
     private final String title;
     private final String yearPublished;
+    private boolean checkedOut = false;
 
     public Book(String title, String author, String yearPublished) {
         this.title = title;

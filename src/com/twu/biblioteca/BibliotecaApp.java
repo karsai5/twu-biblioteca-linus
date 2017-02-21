@@ -55,7 +55,8 @@ public class BibliotecaApp {
 
     public void printBooks() {
         for (Book book : books){
-           System.out.println(book.toString());
+            if (!book.isCheckedOut())
+                System.out.println(book.toString());
         }
     }
 
@@ -69,5 +70,12 @@ public class BibliotecaApp {
         System.out.println("=========");
         System.out.println("1. List Books");
         System.out.println("2. Quit");
+    }
+
+    public void checkout(String title) {
+        for (Book book : books){
+            if (book.getTitle().equals(title))
+                book.checkout();
+        }
     }
 }
