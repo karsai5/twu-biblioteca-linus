@@ -7,7 +7,9 @@ public class BibliotecaApp {
     private ArrayList<Book> books = new ArrayList<Book>();
 
     public BibliotecaApp() {
-        this.start();
+        initialiseBookList();
+        printWelcome();
+        printBooks();
     }
 
     private void initialiseBookList() {
@@ -23,12 +25,6 @@ public class BibliotecaApp {
         System.out.println("Welcome to Biblioteca, the home of books.");
         System.out.println("Made my Linus Karsai for TWU.");
         System.out.println("--");
-    }
-
-    public void start() {
-        initialiseBookList();
-        printWelcome();
-        printBooks();
     }
 
     public void printBooks() {
