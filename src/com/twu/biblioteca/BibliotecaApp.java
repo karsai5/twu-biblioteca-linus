@@ -81,6 +81,15 @@ public class BibliotecaApp {
         }
     }
 
+    public Book findBook(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equals(title)) {
+                return book;
+            }
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         BibliotecaApp ba = new BibliotecaApp();
         ba.start();
@@ -95,14 +104,13 @@ public class BibliotecaApp {
     }
 
     public void checkout(String title) {
-        for (Book book : books) {
-            if (book.getTitle().equals(title)) {
-                book.checkout();
-                System.out.println("Thank you! Enjoy the book.");
-                break;
-            }
+        Book bookToCheckout = findBook(title);
+        if (bookToCheckout != null) {
+            bookToCheckout.checkout();
+            System.out.println("Thank you! Enjoy the book.");
+        } else {
+            System.out.println("That book is not available.");
         }
-        System.out.println("That book is not available.");
     }
 
     public void addBook(Book book) {
@@ -110,10 +118,9 @@ public class BibliotecaApp {
     }
 
     public void returnBook(String title) {
-        for (Book book : books) {
-            if (book.getTitle().equals(title)) {
-                book.returnBook();
-            }
+        Book bookToReturn = findBook(title);
+        if (bookToReturn != null) {
+            bookToReturn.returnBook();
         }
     }
 }
