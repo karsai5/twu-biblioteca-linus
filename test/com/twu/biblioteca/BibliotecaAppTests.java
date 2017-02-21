@@ -195,6 +195,12 @@ public class BibliotecaAppTests {
     }
 
     @Test
+    public void check_for_warning_when_returning_nonexistent_book() {
+        biblioteca.returnBook("This book doesn't exits...");
+        checkForString("That is not a valid book to return.");
+    }
+
+    @Test
     public void userflow_show_menu_and_quit() throws Exception {
         exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_QUIT);

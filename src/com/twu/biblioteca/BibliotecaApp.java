@@ -161,6 +161,8 @@ public class BibliotecaApp {
         if (bookToReturn != null) {
             System.out.println("Thank you for returning the book.");
             bookToReturn.returnBook();
+        } else {
+            System.out.println("That is not a valid book to return.");
         }
     }
 }
