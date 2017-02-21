@@ -8,6 +8,9 @@ public class BibliotecaApp {
 
     public BibliotecaApp() {
         initialiseBookList();
+    }
+
+    public void start() {
         printWelcome();
         printBooks();
     }
