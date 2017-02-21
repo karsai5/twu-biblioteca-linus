@@ -146,6 +146,25 @@ public class BibliotecaAppTests {
     }
 
     @Test
+    public void return_book_handmaids_tale() {
+        // create checkout book
+        String handmaidsTaleTitle = "The Handmaid's Taile";
+        Book handmaidsTale = new Book(handmaidsTaleTitle, "Margaret Atwood", "1986");
+        handmaidsTale.checkout();
+
+        // add checkout out book
+        biblioteca.addBook(handmaidsTale);
+        biblioteca.printBooks();
+        checkStringMissing(handmaidsTaleTitle);
+
+        // return book
+        systemOutRule.clearLog();
+        biblioteca.returnBook(handmaidsTaleTitle);
+        biblioteca.printBooks();
+        checkForString(handmaidsTaleTitle);
+    }
+
+    @Test
     public void userflow_show_menu_and_quit() throws Exception {
         exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_QUIT);

@@ -104,4 +104,16 @@ public class BibliotecaApp {
         }
         System.out.println("That book is not available.");
     }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public void returnBook(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equals(title)) {
+                book.returnBook();
+            }
+        }
+    }
 }

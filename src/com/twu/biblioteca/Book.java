@@ -40,4 +40,8 @@ public class Book {
         String result = String.format("%-40.40s %-30.30s %-30.30s", "\"" + title + "\"", author, yearPublished);
         return result;
     }
+
+    public void returnBook() {
+        this.checkedOut = false;
+    }
 }
