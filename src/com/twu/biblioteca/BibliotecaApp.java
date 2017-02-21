@@ -15,35 +15,52 @@ public class BibliotecaApp {
         System.out.println("Select a valid option!");
     }
 
-    public void start() {
-        printWelcome();
-        while(true){
-            printMenu();
-            int n = -1; // Scans the next token of the input as an int.
-            try {
-                Scanner reader = new Scanner(System.in);  // Reading from System.in
-                System.out.println("Enter a number: ");
-                n = reader.nextInt();
-                if(n == 1) {
-                    printBooks();
-                } else if (n==2) {
-                    System.out.println("Enter the name of the book you want to checkout:");
-                    reader.nextLine(); // this is to get rid of \n leftover from nextInt();
-                    checkout(reader.nextLine());
-                } else if (n==3) {
-                    break;
-                } else {
-                    printInvalidMenuOption();
-                }
-            } catch (Exception e) {
-                printInvalidMenuOption();
-            }
-
+    private int getMenuOption() {
+        Scanner reader = new Scanner(System.in);  // Reading from System.in
+        System.out.println("Enter a number: ");
+        try {
+            return Integer.parseInt(reader.nextLine());
+        } catch (Exception e) {
+            return -1;
         }
     }
 
+    public void start() {
+        printWelcome();
+        startInteractiveMenu();
+    }
+
+    private void startInteractiveMenu() {
+        // start menu loop
+        while (true) {
+            printMenu();
+            int menuNumber = getMenuOption();
+
+            switch (menuNumber) {
+                case 1:
+                    printBooks();
+                    break;
+                case 2:
+                    checkoutBookInteractively();
+                    break;
+                case 3:
+                    System.exit(0);
+                    break;
+                default:
+                    printInvalidMenuOption();
+
+            }
+        }
+    }
+
+    private void checkoutBookInteractively() {
+        Scanner reader = new Scanner(System.in);  // Reading from System.in
+        System.out.println("Enter the name of the book you want to checkout:");
+        checkout(reader.nextLine());
+    }
+
     private void initialiseBookList() {
-        books.add(new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams","1979"));
+        books.add(new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams", "1979"));
         books.add(new Book("The Princess Bride", "William Goldman", "1973"));
         books.add(new Book("The Sparrow", "Mary Doria Russell", "1996"));
         books.add(new Book("Ender's Game", "Orson Scott Card", "1985"));
@@ -58,7 +75,7 @@ public class BibliotecaApp {
     }
 
     public void printBooks() {
-        for (Book book : books){
+        for (Book book : books) {
             if (!book.isCheckedOut())
                 System.out.println(book.toString());
         }
@@ -78,7 +95,7 @@ public class BibliotecaApp {
     }
 
     public void checkout(String title) {
-        for (Book book : books){
+        for (Book book : books) {
             if (book.getTitle().equals(title)) {
                 book.checkout();
                 System.out.println("Thank you! Enjoy the book.");

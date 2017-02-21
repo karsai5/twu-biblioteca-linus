@@ -1,12 +1,14 @@
 package com.twu.biblioteca;
 
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
-import java.io.*;
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
@@ -69,7 +71,7 @@ public class BibliotecaAppTests {
         String input = systemOutRule.getLog();
         int index = input.indexOf(text);
         int count = 0;
-        while (index != -1){
+        while (index != -1) {
             count++;
             input = input.substring(index + 1);
             index = input.indexOf(text);
@@ -77,16 +79,16 @@ public class BibliotecaAppTests {
         return count;
     }
 
-    private void checkForBook(String title){
+    private void checkForBook(String title) {
         assertTrue("Couldn't find book in output: " + title, systemOutRule.getLog().contains(title));
     }
 
-    private void checkForString(String text){
+    private void checkForString(String text) {
         assertTrue("Couldn't find text in output: " + text, systemOutRule.getLog().contains(text));
     }
 
-    private void checkStringMissing(String text){
-       assertFalse("Found text in output that shouldn't be there: " + text, systemOutRule.getLog().contains(text));
+    private void checkStringMissing(String text) {
+        assertFalse("Found text in output that shouldn't be there: " + text, systemOutRule.getLog().contains(text));
     }
 
     @Test
@@ -139,6 +141,7 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_show_menu_and_quit() throws Exception {
+        exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_QUIT);
         biblioteca.start();
         checkForMainMenuText();
@@ -146,6 +149,7 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_viewing_book_list() throws Exception {
+        exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
         checkForMainMenuText();
@@ -154,6 +158,7 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_loop_menu_three_times() {
+        exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
 
@@ -162,6 +167,7 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_incorrect_menu_option() throws Exception {
+        exit.expectSystemExit();
         systemInMock.provideLines("bananas", MENU_OPTION_QUIT);
         biblioteca.start();
         checkForString("Select a valid option!");
@@ -169,6 +175,7 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_checkout_hitchhikers_guide() {
+        exit.expectSystemExit();
         systemInMock.provideLines(MENU_CHECKOUT_BOOK, HITCHHIKER_S_GUIDE_TO_THE_GALAXY, MENU_OPTION_QUIT);
         biblioteca.start();
 
