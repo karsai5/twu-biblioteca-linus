@@ -140,6 +140,12 @@ public class BibliotecaAppTests {
     }
 
     @Test
+    public void check_for_warning_when_checking_out_nonexistent_book() {
+        biblioteca.checkout("Book that doesn't exist...");
+        checkForString("That book is not available.");
+    }
+
+    @Test
     public void userflow_show_menu_and_quit() throws Exception {
         exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_QUIT);
@@ -182,5 +188,14 @@ public class BibliotecaAppTests {
         systemOutRule.clearLog();
         biblioteca.printBooks();
         checkStringMissing(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
+    }
+
+    @Test
+    public void userflow_checkout_nonexistent_book() {
+        exit.expectSystemExit();
+        systemInMock.provideLines(MENU_CHECKOUT_BOOK, "Book that doesn't exist...", MENU_OPTION_QUIT);
+        biblioteca.start();
+
+        checkForString("That book is not available.");
     }
 }

@@ -99,7 +99,9 @@ public class BibliotecaApp {
             if (book.getTitle().equals(title)) {
                 book.checkout();
                 System.out.println("Thank you! Enjoy the book.");
+                break;
             }
         }
+        System.out.println("That book is not available.");
     }
 }
