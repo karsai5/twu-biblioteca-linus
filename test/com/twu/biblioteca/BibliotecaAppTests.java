@@ -127,13 +127,13 @@ public class BibliotecaAppTests {
 
     @Test
     public void check_books_titles_are_printed() {
-        biblioteca.printBooks();
+        biblioteca.printCatalogue();
         checkForBookTitleText();
     }
 
     @Test
     public void check_books_have_author_and_year() {
-        biblioteca.printBooks();
+        biblioteca.printCatalogue();
         checkForAuthorAndYearText();
     }
 
@@ -148,13 +148,13 @@ public class BibliotecaAppTests {
         int oldOutputLength;
         int newOutputLength;
 
-        biblioteca.printBooks();
+        biblioteca.printCatalogue();
         oldOutputLength = systemOutRule.getLog().split("\n").length;
         checkForString(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
         biblioteca.checkout(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
 
         systemOutRule.clearLog();
-        biblioteca.printBooks();
+        biblioteca.printCatalogue();
         newOutputLength = systemOutRule.getLog().split("\n").length;
         checkStringMissing(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
         assertEquals(oldOutputLength - 1, newOutputLength);
@@ -180,13 +180,13 @@ public class BibliotecaAppTests {
         // return book
         systemOutRule.clearLog();
         biblioteca.returnBook(THE_HANDMAID_S_TALE);
-        biblioteca.printBooks();
+        biblioteca.printCatalogue();
         checkForString(THE_HANDMAID_S_TALE);
     }
 
     @Test
     public void print_number_of_books_hidden() {
-        biblioteca.printBooks();
+        biblioteca.printCatalogue();
         checkForString("Hiding 1 book(s) because they're checked out.");
     }
 
@@ -205,8 +205,19 @@ public class BibliotecaAppTests {
     @Test
     public void check_movies_are_listed_correctly() {
         biblioteca.printMovies();
+        checkForMovieTitleText();
+    }
+
+    private void checkForMovieTitleText() {
         checkForString(THE_STATION_AGENT);
         checkForString(BRAVE);
+    }
+
+    @Test(timeout = 200)
+    public void userflow_viewing_movie_list() {
+        systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
+        biblioteca.start();
+        checkForMovieTitleText();
     }
 
     @Test
@@ -220,7 +231,6 @@ public class BibliotecaAppTests {
     public void userflow_viewing_book_list() throws Exception {
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
-        checkForMainMenuText();
         checkForBookTitleText();
     }
 
@@ -245,7 +255,7 @@ public class BibliotecaAppTests {
         biblioteca.start();
 
         systemOutRule.clearLog();
-        biblioteca.printBooks();
+        biblioteca.printCatalogue();
         checkStringMissing(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
     }
 

@@ -45,7 +45,7 @@ public class BibliotecaApp {
 
             switch (menuNumber) {
                 case MENU_OPTION_LIST_BOOKS:
-                    printBooks();
+                    printCatalogue();
                     break;
                 case MENU_CHECKOUT_BOOK:
                     checkoutBookInteractively();
@@ -81,7 +81,7 @@ public class BibliotecaApp {
         System.out.println("--");
     }
 
-    public void printBooks() {
+    public void printCatalogue() {
         int numOfCheckedOutBooks = 0;
         for (Book book : books) {
             if (!book.isCheckedOut()) {
@@ -89,6 +89,9 @@ public class BibliotecaApp {
             } else {
                 ++numOfCheckedOutBooks;
             }
+        }
+        for (Movie movie : movies) {
+            System.out.println(movie.toString());
         }
         if (numOfCheckedOutBooks > 0)
             System.out.printf("Hiding %d book(s) because they're checked out.\n", numOfCheckedOutBooks);
