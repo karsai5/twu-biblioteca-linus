@@ -27,9 +27,20 @@ public class MovieTests extends BaseTest {
     }
 
     @Test
-    public void check_movies_are_listed_correctly() {
+    public void check_movies_titles_are_listed_correctly() {
         biblioteca.printRentables();
         checkForMovieTitleText();
+    }
+
+    @Test
+    public void movies_print_director_year_and_rating() {
+        biblioteca.printRentables();
+        checkForString(STATION_AGENT.getDirector());
+        checkForString(STATION_AGENT.getYear());
+        checkForString(Integer.toString(STATION_AGENT.getRating()));
+        checkForString(BRAVE.getDirector());
+        checkForString(BRAVE.getYear());
+        checkForString(Integer.toString(BRAVE.getRating()));
     }
 
     @Test
