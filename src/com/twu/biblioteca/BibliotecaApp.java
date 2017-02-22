@@ -44,7 +44,7 @@ public class BibliotecaApp {
 
             switch (menuNumber) {
                 case MENU_OPTION_LIST_BOOKS:
-                    printCatalogue();
+                    printRentables();
                     break;
                 case MENU_CHECKOUT_BOOK:
                     checkoutRentableInteractively();
@@ -80,26 +80,25 @@ public class BibliotecaApp {
         System.out.println("--");
     }
 
-    public void printCatalogue() {
+    public void printRentables() {
+        printRentables(Rentable.class);
+    }
+
+    public void printRentables(Class filterClass) {
         int numOfCheckedOutItems = 0;
 
         for (Rentable rentable : rentables) {
-            if (!rentable.isCheckedOut()) {
-                System.out.println(rentable.toString());
-            } else {
-                ++numOfCheckedOutItems;
+            if (filterClass.isInstance(rentable)) { // check it is part of filter class
+                if (!rentable.isCheckedOut()) {
+                    System.out.println(rentable.toString());
+                } else {
+                    ++numOfCheckedOutItems;
+                }
             }
         }
 
         if (numOfCheckedOutItems > 0)
             System.out.printf("Hiding %d item(s) because they're checked out.\n", numOfCheckedOutItems);
-    }
-
-    public void printMovies() {
-        for (Rentable rentable : rentables)
-            if (rentable instanceof Movie) {
-                System.out.println(rentable.toString());
-            }
     }
 
     public Rentable findRentable(String title) {
