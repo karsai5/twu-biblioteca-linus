@@ -6,9 +6,16 @@ package com.twu.biblioteca;
 public abstract class Rentable {
     protected boolean checkedOut = false;
     protected String title;
+    protected String rentableType;
 
-    public Rentable(String title) {
+
+    public Rentable(String title, String type) {
         this.title = title;
+        this.rentableType = type;
+    }
+
+    public String getRentableType() {
+        return rentableType;
     }
 
     public void checkout() {
@@ -22,6 +29,7 @@ public abstract class Rentable {
     public boolean isCheckedOut() {
         return checkedOut;
     }
+
 
     public String getTitle() {
         return title;

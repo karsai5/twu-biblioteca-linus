@@ -45,7 +45,7 @@ public class BibliotecaAppTests {
         // clear book collection and initialise test books.
         // although these are identical at time of writing, I didn't
         // want the tests to rely on data initialised in the app class.
-        biblioteca.clearBooks();
+        biblioteca.clearRentables();
         initialiseBooks();
         systemOutRule.clearLog();
     }
@@ -92,7 +92,7 @@ public class BibliotecaAppTests {
 
     private void checkForMainMenuText() {
         checkForString("Main Menu");
-        checkForString("List Books");
+        checkForString("Print catalogue");
     }
 
     private int stringCount(String text) {
@@ -170,7 +170,7 @@ public class BibliotecaAppTests {
     @Test
     public void check_for_warning_when_checking_out_nonexistent_book() {
         biblioteca.checkout("Book that doesn't exist...");
-        checkForString("That book is not available.");
+        checkForString("That item is not available.");
     }
 
     @Test
@@ -187,7 +187,7 @@ public class BibliotecaAppTests {
     @Test
     public void print_number_of_books_hidden() {
         biblioteca.printCatalogue();
-        checkForString("Hiding 1 book(s) because they're checked out.");
+        checkForString("Hiding 1 item(s) because they're checked out.");
     }
 
     @Test
@@ -199,7 +199,7 @@ public class BibliotecaAppTests {
     @Test
     public void check_for_warning_when_returning_nonexistent_book() {
         biblioteca.checkin("This book doesn't exits...");
-        checkForString("That is not a valid book to return.");
+        checkForString("That is not a valid item to return.");
     }
 
     @Test
@@ -274,7 +274,7 @@ public class BibliotecaAppTests {
         systemInMock.provideLines(MENU_CHECKOUT_BOOK, "Book that doesn't exist...", MENU_OPTION_QUIT);
         biblioteca.start();
 
-        checkForString("That book is not available.");
+        checkForString("That item is not available.");
     }
 
     @Test

@@ -47,13 +47,13 @@ public class BibliotecaApp {
                     printCatalogue();
                     break;
                 case MENU_CHECKOUT_BOOK:
-                    checkoutBookInteractively();
+                    checkoutRentableInteractively();
                     break;
                 case MENU_OPTION_QUIT:
                     running = false;
                     break;
                 case MENU_RETURN_BOOK:
-                    returnBookInteractively();
+                    returnRentableInteractively();
                     break;
                 default:
                     printInvalidMenuOption();
@@ -62,20 +62,20 @@ public class BibliotecaApp {
         }
     }
 
-    private void returnBookInteractively() {
+    private void returnRentableInteractively() {
         Scanner reader = new Scanner(System.in);
-        System.out.println("Enter the name of the book you want to return:");
+        System.out.println("Enter the name of the item you want to return:");
         checkin(reader.nextLine());
     }
 
-    private void checkoutBookInteractively() {
+    private void checkoutRentableInteractively() {
         Scanner reader = new Scanner(System.in);  // Reading from System.in
-        System.out.println("Enter the name of the book you want to checkout:");
+        System.out.println("Enter the name of the item you want to checkout:");
         checkout(reader.nextLine());
     }
 
     public void printWelcome() {
-        System.out.println("Welcome to Biblioteca, the home of books.");
+        System.out.println("Welcome to Biblioteca, the home of books (and other things).");
         System.out.println("Made by Linus Karsai for TWU.");
         System.out.println("--");
     }
@@ -92,7 +92,7 @@ public class BibliotecaApp {
         }
 
         if (numOfCheckedOutItems > 0)
-            System.out.printf("Hiding %d book(s) because they're checked out.\n", numOfCheckedOutItems);
+            System.out.printf("Hiding %d item(s) because they're checked out.\n", numOfCheckedOutItems);
     }
 
     public void printMovies() {
@@ -119,9 +119,9 @@ public class BibliotecaApp {
     public void printMenu() {
         System.out.println("Main Menu");
         System.out.println("=========");
-        System.out.println("1. List Books");
-        System.out.println("2. Checkout Book");
-        System.out.println("3. Return Book");
+        System.out.println("1. Print catalogue");
+        System.out.println("2. Checkout item");
+        System.out.println("3. Return item");
         System.out.println("4. Quit");
     }
 
@@ -129,9 +129,9 @@ public class BibliotecaApp {
         Rentable itemToCheckout = findRentable(title);
         if (itemToCheckout != null) {
             itemToCheckout.checkout();
-            System.out.println("Thank you! Enjoy the book.");
+            System.out.printf("Thank you! Enjoy the %s.\n", itemToCheckout.getRentableType());
         } else {
-            System.out.println("That book is not available.");
+            System.out.println("That item is not available.");
         }
     }
 
@@ -139,17 +139,17 @@ public class BibliotecaApp {
         rentables.add(rentable);
     }
 
-    public void clearBooks() {
+    public void clearRentables() {
         rentables.clear();
     }
 
     public void checkin(String title) {
-        Rentable bookToReturn = findRentable(title);
-        if (bookToReturn != null) {
-            System.out.println("Thank you for returning the book.");
-            bookToReturn.checkin();
+        Rentable rentableToReturn = findRentable(title);
+        if (rentableToReturn != null) {
+            System.out.printf("Thank you for returning the %s.\n", rentableToReturn.getRentableType());
+            rentableToReturn.checkin();
         } else {
-            System.out.println("That is not a valid book to return.");
+            System.out.println("That is not a valid item to return.");
         }
     }
 }
