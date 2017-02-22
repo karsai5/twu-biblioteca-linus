@@ -115,7 +115,7 @@ public class BibliotecaAppTests {
         assertTrue("Couldn't find text in output: " + text, systemOutRule.getLog().contains(text));
     }
 
-    private void checkStringMissing(String text) {
+    private void checkForMissingString(String text) {
         assertFalse("Found text in output that shouldn't be there: " + text, systemOutRule.getLog().contains(text));
     }
 
@@ -156,7 +156,7 @@ public class BibliotecaAppTests {
         systemOutRule.clearLog();
         biblioteca.printCatalogue();
         newOutputLength = systemOutRule.getLog().split("\n").length;
-        checkStringMissing(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
+        checkForMissingString(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
         assertEquals(oldOutputLength - 1, newOutputLength);
     }
 
@@ -175,7 +175,7 @@ public class BibliotecaAppTests {
 
     @Test
     public void return_book_handmaids_tale() {
-        checkStringMissing(THE_HANDMAID_S_TALE);
+        checkForMissingString(THE_HANDMAID_S_TALE);
 
         // return book
         systemOutRule.clearLog();
@@ -211,6 +211,16 @@ public class BibliotecaAppTests {
     private void checkForMovieTitleText() {
         checkForString(THE_STATION_AGENT);
         checkForString(BRAVE);
+    }
+
+    @Test
+    public void checkout_the_station_agent() {
+        biblioteca.printMovies();
+        checkForString(THE_STATION_AGENT);
+        biblioteca.checkin(THE_STATION_AGENT);
+
+        systemOutRule.clearLog();
+        checkForMissingString(THE_STATION_AGENT);
     }
 
     @Test(timeout = 200)
@@ -256,7 +266,7 @@ public class BibliotecaAppTests {
 
         systemOutRule.clearLog();
         biblioteca.printCatalogue();
-        checkStringMissing(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
+        checkForMissingString(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
     }
 
     @Test
