@@ -12,7 +12,7 @@ public class Movie extends Rentable {
     private int rating = UNRATED;
 
     public Movie(String title, String year, String director, int rating) {
-        this.title = title;
+        super(title);
         this.year = year;
         this.director = director;
         this.rating = rating;

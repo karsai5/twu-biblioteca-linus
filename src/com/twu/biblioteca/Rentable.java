@@ -7,6 +7,10 @@ public abstract class Rentable {
     protected boolean checkedOut = false;
     protected String title;
 
+    public Rentable(String title) {
+        this.title = title;
+    }
+
     public void checkout() {
         checkedOut = true;
     }

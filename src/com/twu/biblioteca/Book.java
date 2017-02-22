@@ -8,7 +8,7 @@ public class Book extends Rentable {
     private final String yearPublished;
 
     public Book(String title, String author, String yearPublished) {
-        this.title = title;
+        super(title);
         this.author = author;
         this.yearPublished = yearPublished;
     }
