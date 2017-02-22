@@ -8,21 +8,26 @@ public abstract class Rentable {
     protected String title;
     protected String rentableType;
 
+    protected User owner = null;
 
     public Rentable(String title, String type) {
         this.title = title;
         this.rentableType = type;
     }
 
+    public abstract String toString();
+
     public String getRentableType() {
         return rentableType;
     }
 
-    public void checkout() {
+    public void checkout(User user) {
+        owner = user;
         checkedOut = true;
     }
 
     public void checkin() {
+        owner = null;
         checkedOut = false;
     }
 
@@ -30,10 +35,15 @@ public abstract class Rentable {
         return checkedOut;
     }
 
-
     public String getTitle() {
         return title;
     }
 
-    public abstract String toString();
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }

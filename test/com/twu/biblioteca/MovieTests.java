@@ -12,9 +12,11 @@ public class MovieTests extends BaseTest {
 
     public static Movie STATION_AGENT;
     public static Movie BRAVE;
+    public static User JEAN;
 
     @Override
     protected void initialiseDummyData() {
+        JEAN = new User("222-24601", "password");
         STATION_AGENT = new Movie("The Station Agent", "2003", "Tom McCarthy");
         BRAVE = new Movie("Brave", "2012", "Mark Andrews");
         biblioteca.addRentable(STATION_AGENT);
@@ -56,9 +58,9 @@ public class MovieTests extends BaseTest {
 
     @Test
     public void return_the_station_agent() {
-        STATION_AGENT.checkout();
+        STATION_AGENT.checkout(JEAN);
         assertTrue("Station agent isn't checked out.", STATION_AGENT.isCheckedOut());
-        STATION_AGENT.checkout();
+        STATION_AGENT.checkout(JEAN);
         biblioteca.checkin(STATION_AGENT.getTitle());
         assertFalse("Station agent didn't check in.", STATION_AGENT.isCheckedOut());
     }

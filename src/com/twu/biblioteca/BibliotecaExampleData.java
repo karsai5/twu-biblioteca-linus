@@ -26,7 +26,7 @@ public class BibliotecaExampleData {
 
         // create book that's checked out
         Book handmaidsTale = new Book(THE_HANDMAID_S_TALE, "Margaret Atwood", "1986");
-        handmaidsTale.checkout();
+        handmaidsTale.checkout(null);
         bibliotecaApp.addRentable(handmaidsTale);
     }
 

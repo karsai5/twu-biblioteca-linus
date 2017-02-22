@@ -18,8 +18,10 @@ public class BookTests extends BaseTest {
     public static Book MOON_MISTRESS;
     public static Book NAME_OF_THE_WIND;
     public static Book HANDMAIDS_TALE;
+    public static User JEAN;
 
     protected void initialiseDummyData() {
+        JEAN = new User("222-24601", "password");
         // add books
         HITCHHIKERS_GUIDE = new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams", "1979");
         PRINCESS_BRIDE = new Book("The Princess Bride", "William Goldman", "1973");
@@ -28,7 +30,7 @@ public class BookTests extends BaseTest {
         MOON_MISTRESS = new Book("The Moon is a Harsh Mistress", "Robert A. Heinlein", "1966");
         NAME_OF_THE_WIND = new Book("The Name of the Wind", "Patrick Rothfuss", "2007");
         HANDMAIDS_TALE = new Book("The Handmaid's Tale", "Margaret Atwood", "1986");
-        HANDMAIDS_TALE.checkout();
+        HANDMAIDS_TALE.checkout(JEAN);
 
         biblioteca.addRentable(HITCHHIKERS_GUIDE);
         biblioteca.addRentable(PRINCESS_BRIDE);
@@ -75,7 +77,7 @@ public class BookTests extends BaseTest {
         biblioteca.printRentables();
         oldOutputLength = systemOutRule.getLog().split("\n").length;
         checkForString(HITCHHIKERS_GUIDE.getTitle());
-        HITCHHIKERS_GUIDE.checkout();
+        HITCHHIKERS_GUIDE.checkout(JEAN);
 
         systemOutRule.clearLog();
         biblioteca.printRentables();

@@ -129,7 +129,7 @@ public class BibliotecaApp {
     public void checkout(String title) {
         Rentable itemToCheckout = findRentable(title);
         if (itemToCheckout != null) {
-            itemToCheckout.checkout();
+            itemToCheckout.checkout(currentUser);
             System.out.printf("Thank you! Enjoy the %s.\n", itemToCheckout.getRentableType());
         } else {
             System.out.println("That item is not available.");

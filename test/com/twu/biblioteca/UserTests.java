@@ -10,16 +10,24 @@ import static org.junit.Assert.assertEquals;
 public class UserTests extends BaseTest {
     public User JEAN;
     public String JEAN_PASSWORD = "password";
+    public Book HITCHHIKERS_GUIDE;
 
     @Override
     protected void initialiseDummyData() {
+        HITCHHIKERS_GUIDE = new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams", "1979");
         JEAN = new User("222-4601", JEAN_PASSWORD);
+
         biblioteca.addUser(JEAN);
+        biblioteca.addRentable(HITCHHIKERS_GUIDE);
+    }
+
+    private void loginAsJean() {
+        biblioteca.login(JEAN.getUsername(), JEAN_PASSWORD);
     }
 
     @Test
     public void login_as_jean() {
-        biblioteca.login(JEAN.getUsername(), JEAN_PASSWORD);
+        loginAsJean();
         assertEquals(biblioteca.getCurrentUser(), JEAN);
     }
 
@@ -27,5 +35,20 @@ public class UserTests extends BaseTest {
     public void login_incorrectly() {
         biblioteca.login("fakeuser", "fakepassword");
         assertEquals(biblioteca.getCurrentUser(), null);
+    }
+
+    @Test
+    public void checkout_hitchhikers_guide_as_jean() {
+        loginAsJean();
+        biblioteca.checkout(HITCHHIKERS_GUIDE.getTitle());
+        assertEquals(JEAN, HITCHHIKERS_GUIDE.getOwner());
+    }
+
+    @Test
+    public void returning_book_should_clear_owner() {
+        HITCHHIKERS_GUIDE.setOwner(JEAN);
+        assertEquals(JEAN, HITCHHIKERS_GUIDE.getOwner());
+        biblioteca.checkin(HITCHHIKERS_GUIDE.getTitle());
+        assertEquals(null, HITCHHIKERS_GUIDE.getOwner());
     }
 }
