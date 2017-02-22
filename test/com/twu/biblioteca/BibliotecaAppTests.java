@@ -4,7 +4,6 @@ package com.twu.biblioteca;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
@@ -39,10 +38,6 @@ public class BibliotecaAppTests {
     @Rule
     public final TextFromStandardInputStream systemInMock
             = emptyStandardInputStream();
-
-    // Used for cecking if the system exited correctly
-    @Rule
-    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
     @Before
     public void setUpStreams() throws IOException {
@@ -216,7 +211,6 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_show_menu_and_quit() throws Exception {
-        exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_QUIT);
         biblioteca.start();
         checkForMainMenuText();
@@ -224,7 +218,6 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_viewing_book_list() throws Exception {
-        exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
         checkForMainMenuText();
@@ -233,7 +226,6 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_loop_menu_three_times() {
-        exit.expectSystemExit();
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
 
@@ -242,7 +234,6 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_incorrect_menu_option() throws Exception {
-        exit.expectSystemExit();
         systemInMock.provideLines("bananas", MENU_OPTION_QUIT);
         biblioteca.start();
         checkForString("Select a valid option!");
@@ -250,7 +241,6 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_checkout_hitchhikers_guide() {
-        exit.expectSystemExit();
         systemInMock.provideLines(MENU_CHECKOUT_BOOK, HITCHHIKER_S_GUIDE_TO_THE_GALAXY, MENU_OPTION_QUIT);
         biblioteca.start();
 
@@ -261,7 +251,6 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_checkout_nonexistent_book() {
-        exit.expectSystemExit();
         systemInMock.provideLines(MENU_CHECKOUT_BOOK, "Book that doesn't exist...", MENU_OPTION_QUIT);
         biblioteca.start();
 
@@ -270,7 +259,6 @@ public class BibliotecaAppTests {
 
     @Test
     public void userflow_return_book() {
-        exit.expectSystemExit();
         systemInMock.provideLines(MENU_RETURN_BOOK, THE_HANDMAID_S_TALE, MENU_OPTION_QUIT);
         biblioteca.start();
 

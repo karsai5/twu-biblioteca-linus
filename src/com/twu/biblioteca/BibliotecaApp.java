@@ -38,7 +38,8 @@ public class BibliotecaApp {
 
     private void startInteractiveMenu() {
         // start menu loop
-        while (true) {
+        boolean running = true;
+        while (running) {
             printMenu();
             int menuNumber = getMenuOption();
 
@@ -50,7 +51,7 @@ public class BibliotecaApp {
                     checkoutBookInteractively();
                     break;
                 case MENU_OPTION_QUIT:
-                    System.exit(0);
+                    running = false;
                     break;
                 case MENU_RETURN_BOOK:
                     returnBookInteractively();
