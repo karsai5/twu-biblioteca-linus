@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Categories.class)
-@Suite.SuiteClasses({BookTests.class, MovieTests.class, InterfaceTests.class, UserflowTests.class})
+@Suite.SuiteClasses({BookTests.class, MovieTests.class, InterfaceTests.class, UserflowTests.class, UserTests.class})
 
 public class BibliotecaAppTests {
 }

@@ -11,6 +11,8 @@ public class BibliotecaApp {
     private static final int MENU_OPTION_QUIT = 4;
 
     private ArrayList<Rentable> rentables = new ArrayList<Rentable>();
+    private ArrayList<User> users = new ArrayList<User>();
+    private User currentUser = null;
 
     public BibliotecaApp() {
         BibliotecaExampleData.initialiseBookList(this);
@@ -150,5 +152,21 @@ public class BibliotecaApp {
         } else {
             System.out.println("That is not a valid item to return.");
         }
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public void login(String username, String password) {
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.checkPassword(password)) {
+                currentUser = user;
+            }
+        }
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 }
