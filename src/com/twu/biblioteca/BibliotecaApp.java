@@ -10,8 +10,7 @@ public class BibliotecaApp {
     private static final int MENU_RETURN_BOOK = 3;
     private static final int MENU_OPTION_QUIT = 4;
 
-    private ArrayList<Book> books = new ArrayList<Book>();
-    private ArrayList<Movie> movies = new ArrayList<Movie>();
+    private ArrayList<Rentable> rentables = new ArrayList<Rentable>();
 
     public BibliotecaApp() {
         BibliotecaExampleData.initialiseBookList(this);
@@ -66,7 +65,7 @@ public class BibliotecaApp {
     private void returnBookInteractively() {
         Scanner reader = new Scanner(System.in);
         System.out.println("Enter the name of the book you want to return:");
-        returnBook(reader.nextLine());
+        checkin(reader.nextLine());
     }
 
     private void checkoutBookInteractively() {
@@ -82,35 +81,31 @@ public class BibliotecaApp {
     }
 
     public void printCatalogue() {
-        int numOfCheckedOutBooks = 0;
+        int numOfCheckedOutItems = 0;
 
-        System.out.println("Books:");
-        for (Book book : books) {
-            if (!book.isCheckedOut()) {
-                System.out.println(book.toString());
+        for (Rentable rentable : rentables) {
+            if (!rentable.isCheckedOut()) {
+                System.out.println(rentable.toString());
             } else {
-                ++numOfCheckedOutBooks;
+                ++numOfCheckedOutItems;
             }
         }
 
-        System.out.println("Movies:");
-        for (Movie movie : movies) {
-            System.out.println(movie.toString());
-        }
-        if (numOfCheckedOutBooks > 0)
-            System.out.printf("Hiding %d book(s) because they're checked out.\n", numOfCheckedOutBooks);
+        if (numOfCheckedOutItems > 0)
+            System.out.printf("Hiding %d book(s) because they're checked out.\n", numOfCheckedOutItems);
     }
 
     public void printMovies() {
-        for (Movie movie : movies) {
-            System.out.println(movie.toString());
-        }
+        for (Rentable rentable : rentables)
+            if (rentable instanceof Movie) {
+                System.out.println(rentable.toString());
+            }
     }
 
-    public Book findBook(String title) {
-        for (Book book : books) {
-            if (book.getTitle().equals(title)) {
-                return book;
+    public Rentable findRentable(String title) {
+        for (Rentable rentable : rentables) {
+            if (rentable.getTitle().equals(title)) {
+                return rentable;
             }
         }
         return null;
@@ -131,29 +126,25 @@ public class BibliotecaApp {
     }
 
     public void checkout(String title) {
-        Book bookToCheckout = findBook(title);
-        if (bookToCheckout != null) {
-            bookToCheckout.checkout();
+        Rentable itemToCheckout = findRentable(title);
+        if (itemToCheckout != null) {
+            itemToCheckout.checkout();
             System.out.println("Thank you! Enjoy the book.");
         } else {
             System.out.println("That book is not available.");
         }
     }
 
-    public void addBook(Book book) {
-        books.add(book);
-    }
-
-    public void addMovie(Movie movie) {
-        movies.add(movie);
+    public void addRentable(Rentable rentable) {
+        rentables.add(rentable);
     }
 
     public void clearBooks() {
-        books.clear();
+        rentables.clear();
     }
 
-    public void returnBook(String title) {
-        Book bookToReturn = findBook(title);
+    public void checkin(String title) {
+        Rentable bookToReturn = findRentable(title);
         if (bookToReturn != null) {
             System.out.println("Thank you for returning the book.");
             bookToReturn.checkin();

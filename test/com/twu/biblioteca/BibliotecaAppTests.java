@@ -52,21 +52,21 @@ public class BibliotecaAppTests {
 
     private void initialiseBooks() {
         // add books
-        biblioteca.addBook(new Book(HITCHHIKER_S_GUIDE_TO_THE_GALAXY, "Douglas Adams", "1979"));
-        biblioteca.addBook(new Book(THE_PRINCESS_BRIDE, "William Goldman", "1973"));
-        biblioteca.addBook(new Book(THE_SPARROW, "Mary Doria Russell", "1996"));
-        biblioteca.addBook(new Book(ENDER_S_GAME, "Orson Scott Card", "1985"));
-        biblioteca.addBook(new Book(THE_MOON_IS_A_HARSH_MISTRESS, "Robert A. Heinlein", "1966"));
-        biblioteca.addBook(new Book(THE_NAME_OF_THE_WIND, "Patrick Rothfuss", "2007"));
+        biblioteca.addRentable(new Book(HITCHHIKER_S_GUIDE_TO_THE_GALAXY, "Douglas Adams", "1979"));
+        biblioteca.addRentable(new Book(THE_PRINCESS_BRIDE, "William Goldman", "1973"));
+        biblioteca.addRentable(new Book(THE_SPARROW, "Mary Doria Russell", "1996"));
+        biblioteca.addRentable(new Book(ENDER_S_GAME, "Orson Scott Card", "1985"));
+        biblioteca.addRentable(new Book(THE_MOON_IS_A_HARSH_MISTRESS, "Robert A. Heinlein", "1966"));
+        biblioteca.addRentable(new Book(THE_NAME_OF_THE_WIND, "Patrick Rothfuss", "2007"));
 
         // create book that's checked out
         Book handmaidsTale = new Book(THE_HANDMAID_S_TALE, "Margaret Atwood", "1986");
         handmaidsTale.checkout();
-        biblioteca.addBook(handmaidsTale);
+        biblioteca.addRentable(handmaidsTale);
 
         // add movies
-        biblioteca.addMovie(new Movie(THE_STATION_AGENT, "2003", "Tom McCarthy"));
-        biblioteca.addMovie(new Movie(BRAVE, "2012", "Mark Andrews"));
+        biblioteca.addRentable(new Movie(THE_STATION_AGENT, "2003", "Tom McCarthy"));
+        biblioteca.addRentable(new Movie(BRAVE, "2012", "Mark Andrews"));
     }
 
     private void checkForWelcomeMessageText() {
@@ -179,7 +179,7 @@ public class BibliotecaAppTests {
 
         // return book
         systemOutRule.clearLog();
-        biblioteca.returnBook(THE_HANDMAID_S_TALE);
+        biblioteca.checkin(THE_HANDMAID_S_TALE);
         biblioteca.printCatalogue();
         checkForString(THE_HANDMAID_S_TALE);
     }
@@ -192,13 +192,13 @@ public class BibliotecaAppTests {
 
     @Test
     public void check_for_message_when_returning_handmaids_tale() {
-        biblioteca.returnBook(THE_HANDMAID_S_TALE);
+        biblioteca.checkin(THE_HANDMAID_S_TALE);
         checkForString("Thank you for returning the book.");
     }
 
     @Test
     public void check_for_warning_when_returning_nonexistent_book() {
-        biblioteca.returnBook("This book doesn't exits...");
+        biblioteca.checkin("This book doesn't exits...");
         checkForString("That is not a valid book to return.");
     }
 
@@ -272,7 +272,7 @@ public class BibliotecaAppTests {
         systemInMock.provideLines(MENU_RETURN_BOOK, THE_HANDMAID_S_TALE, MENU_OPTION_QUIT);
         biblioteca.start();
 
-        Book handmaidsTale = biblioteca.findBook(THE_HANDMAID_S_TALE);
+        Book handmaidsTale = (Book) biblioteca.findRentable(THE_HANDMAID_S_TALE);
         assertFalse(handmaidsTale.isCheckedOut());
     }
 

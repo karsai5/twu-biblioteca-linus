@@ -17,17 +17,17 @@ public class BibliotecaExampleData {
     public static final String THE_NAME_OF_THE_WIND = "The Name of the Wind";
 
     public static void initialiseBookList(BibliotecaApp bibliotecaApp) {
-        bibliotecaApp.addBook(new Book(HITCHHIKER_S_GUIDE_TO_THE_GALAXY, "Douglas Adams", "1979"));
-        bibliotecaApp.addBook(new Book(THE_PRINCESS_BRIDE, "William Goldman", "1973"));
-        bibliotecaApp.addBook(new Book(THE_SPARROW, "Mary Doria Russell", "1996"));
-        bibliotecaApp.addBook(new Book(ENDER_S_GAME, "Orson Scott Card", "1985"));
-        bibliotecaApp.addBook(new Book(THE_MOON_IS_A_HARSH_MISTRESS, "Robert A. Heinlein", "1966"));
-        bibliotecaApp.addBook(new Book(THE_NAME_OF_THE_WIND, "Patrick Rothfuss", "2007"));
+        bibliotecaApp.addRentable(new Book(HITCHHIKER_S_GUIDE_TO_THE_GALAXY, "Douglas Adams", "1979"));
+        bibliotecaApp.addRentable(new Book(THE_PRINCESS_BRIDE, "William Goldman", "1973"));
+        bibliotecaApp.addRentable(new Book(THE_SPARROW, "Mary Doria Russell", "1996"));
+        bibliotecaApp.addRentable(new Book(ENDER_S_GAME, "Orson Scott Card", "1985"));
+        bibliotecaApp.addRentable(new Book(THE_MOON_IS_A_HARSH_MISTRESS, "Robert A. Heinlein", "1966"));
+        bibliotecaApp.addRentable(new Book(THE_NAME_OF_THE_WIND, "Patrick Rothfuss", "2007"));
 
         // create book that's checked out
         Book handmaidsTale = new Book(THE_HANDMAID_S_TALE, "Margaret Atwood", "1986");
         handmaidsTale.checkout();
-        bibliotecaApp.addBook(handmaidsTale);
+        bibliotecaApp.addRentable(handmaidsTale);
     }
 
 }
