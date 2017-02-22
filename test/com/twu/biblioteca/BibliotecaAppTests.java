@@ -27,6 +27,8 @@ public class BibliotecaAppTests {
     public static final String ENDER_S_GAME = "Ender's Game";
     public static final String THE_MOON_IS_A_HARSH_MISTRESS = "The Moon is a Harsh Mistress";
     public static final String THE_NAME_OF_THE_WIND = "The Name of the Wind";
+    public static final String THE_STATION_AGENT = "The Station Agent";
+    public static final String BRAVE = "Brave";
     BibliotecaApp biblioteca;
 
     // Used for grabbing System.out.println output so it can be asserted
@@ -54,6 +56,7 @@ public class BibliotecaAppTests {
     }
 
     private void initialiseBooks() {
+        // add books
         biblioteca.addBook(new Book(HITCHHIKER_S_GUIDE_TO_THE_GALAXY, "Douglas Adams", "1979"));
         biblioteca.addBook(new Book(THE_PRINCESS_BRIDE, "William Goldman", "1973"));
         biblioteca.addBook(new Book(THE_SPARROW, "Mary Doria Russell", "1996"));
@@ -65,6 +68,10 @@ public class BibliotecaAppTests {
         Book handmaidsTale = new Book(THE_HANDMAID_S_TALE, "Margaret Atwood", "1986");
         handmaidsTale.checkout();
         biblioteca.addBook(handmaidsTale);
+
+        // add movies
+        biblioteca.addMovie(new Movie(THE_STATION_AGENT, "2003", "Tom McCarthy"));
+        biblioteca.addMovie(new Movie(BRAVE, "2012", "Mark Andrews"));
     }
 
     private void checkForWelcomeMessageText() {
@@ -198,6 +205,13 @@ public class BibliotecaAppTests {
     public void check_for_warning_when_returning_nonexistent_book() {
         biblioteca.returnBook("This book doesn't exits...");
         checkForString("That is not a valid book to return.");
+    }
+
+    @Test
+    public void check_movies_are_listed_correctly() {
+        biblioteca.printMovies();
+        checkForString(THE_STATION_AGENT);
+        checkForString(BRAVE);
     }
 
     @Test

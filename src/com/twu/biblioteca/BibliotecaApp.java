@@ -11,6 +11,7 @@ public class BibliotecaApp {
     private static final int MENU_OPTION_QUIT = 4;
 
     private ArrayList<Book> books = new ArrayList<Book>();
+    private ArrayList<Movie> movies = new ArrayList<Movie>();
 
     public BibliotecaApp() {
         BibliotecaExampleData.initialiseBookList(this);
@@ -92,6 +93,12 @@ public class BibliotecaApp {
             System.out.printf("Hiding %d book(s) because they're checked out.\n", numOfCheckedOutBooks);
     }
 
+    public void printMovies() {
+        for (Movie movie : movies) {
+            System.out.println(movie.toString());
+        }
+    }
+
     public Book findBook(String title) {
         for (Book book : books) {
             if (book.getTitle().equals(title)) {
@@ -127,6 +134,10 @@ public class BibliotecaApp {
 
     public void addBook(Book book) {
         books.add(book);
+    }
+
+    public void addMovie(Movie movie) {
+        movies.add(movie);
     }
 
     public void clearBooks() {
