@@ -9,6 +9,4 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({BookTests.class, MovieTests.class, InterfaceTests.class, UserflowTests.class})
 
 public class BibliotecaAppTests {
-
-
 }

@@ -18,13 +18,13 @@ public class InterfaceTests extends BaseTest {
     }
 
     @Test
-    public void check_welcome_message() {
+    public void check_welcome_message_test() {
         biblioteca.printWelcome();
         checkForWelcomeMessageText();
     }
 
     @Test
-    public void check_menu_prints() throws Exception {
+    public void check_menu_text() throws Exception {
         biblioteca.printMenu();
         checkForMainMenuText();
     }

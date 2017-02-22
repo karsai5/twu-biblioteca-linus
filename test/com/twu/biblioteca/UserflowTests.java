@@ -15,34 +15,39 @@ public class UserflowTests extends BaseTest {
     public static final String MENU_OPTION_QUIT = "4";
     public static final String MENU_RETURN_BOOK = "3";
 
-    public static final String BOOK_HITCHHIKER_S_GUIDE_TO_THE_GALAXY = "Hitchhiker's Guide to the Galaxy";
-    public static final String BOOK_THE_HANDMAID_S_TALE = "The Handmaid's Tale";
-    public static final String BOOK_THE_PRINCESS_BRIDE = "The Princess Bride";
-    public static final String MOVIE_THE_STATION_AGENT = "The Station Agent";
-    public static final String MOVIE_BRAVE = "Brave";
+    public static Book HITCHHIKERS_GUIDE;
+    public static Book HANDMAIDS_TALE;
+    public static Book PRINCESS_BRIDE;
+
+    public static Movie STATION_AGENT;
+    public static Movie BRAVE;
 
     @Override
     protected void initialiseDummyData() {
-        biblioteca.addRentable(new Book(BOOK_HITCHHIKER_S_GUIDE_TO_THE_GALAXY, "Douglas Adams", "1979"));
-        biblioteca.addRentable(new Book(BOOK_THE_PRINCESS_BRIDE, "William Goldman", "1973"));
-        biblioteca.addRentable(new Movie(MOVIE_THE_STATION_AGENT, "2003", "Tom McCarthy"));
-        biblioteca.addRentable(new Movie(MOVIE_BRAVE, "2012", "Mark Andrews"));
-        // add item that's checked out
-        Book handmaidsTale = new Book(BOOK_THE_HANDMAID_S_TALE, "Margaret Atwood", "1986");
-        handmaidsTale.checkout();
-        biblioteca.addRentable(handmaidsTale);
+        HITCHHIKERS_GUIDE = new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams", "1979");
+        PRINCESS_BRIDE = new Book("The Princess Bride", "William Goldman", "1973");
+        HANDMAIDS_TALE = new Book("The Handmaid's Tale", "Margaret Atwood", "1989");
+        HANDMAIDS_TALE.checkout();
+        STATION_AGENT = new Movie("The Station Agent", "2003", "Tom McCarthy");
+        BRAVE = new Movie("Brave", "2012", "Mark Andrews");
+
+        biblioteca.addRentable(HITCHHIKERS_GUIDE);
+        biblioteca.addRentable(HANDMAIDS_TALE);
+        biblioteca.addRentable(PRINCESS_BRIDE);
+        biblioteca.addRentable(STATION_AGENT);
+        biblioteca.addRentable(BRAVE);
     }
 
     @Test
-    public void userflow_viewing_movie_list() {
+    public void view_movies() {
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
-        checkForString(MOVIE_THE_STATION_AGENT);
-        checkForString(MOVIE_BRAVE);
+        checkForString(STATION_AGENT.getTitle());
+        checkForString(BRAVE.getTitle());
     }
 
     @Test
-    public void userflow_show_menu_and_quit() throws Exception {
+    public void show_menu_then_quit() throws Exception {
         systemInMock.provideLines(MENU_OPTION_QUIT);
         biblioteca.start();
         checkForString("Main Menu");
@@ -50,15 +55,15 @@ public class UserflowTests extends BaseTest {
     }
 
     @Test
-    public void userflow_viewing_book_list() throws Exception {
+    public void view_books() throws Exception {
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
-        checkForString(BOOK_HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
-        checkForString(BOOK_THE_PRINCESS_BRIDE);
+        checkForString(HITCHHIKERS_GUIDE.getTitle());
+        checkForString(PRINCESS_BRIDE.getTitle());
     }
 
     @Test
-    public void userflow_loop_menu_three_times() {
+    public void loop_the_main_menu_three_times() {
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.start();
 
@@ -66,24 +71,24 @@ public class UserflowTests extends BaseTest {
     }
 
     @Test
-    public void userflow_incorrect_menu_option() throws Exception {
+    public void select_an_incorrect_menu_option() throws Exception {
         systemInMock.provideLines("bananas", MENU_OPTION_QUIT);
         biblioteca.start();
         checkForString("Select a valid option!");
     }
 
     @Test
-    public void userflow_checkout_hitchhikers_guide() {
-        systemInMock.provideLines(MENU_CHECKOUT_BOOK, BOOK_HITCHHIKER_S_GUIDE_TO_THE_GALAXY, MENU_OPTION_QUIT);
+    public void checkout_hitchhikers_guide() {
+        systemInMock.provideLines(MENU_CHECKOUT_BOOK, HITCHHIKERS_GUIDE.getTitle(), MENU_OPTION_QUIT);
         biblioteca.start();
 
         systemOutRule.clearLog();
         biblioteca.printRentables();
-        checkForMissingString(BOOK_HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
+        checkForMissingString(HITCHHIKERS_GUIDE.getTitle());
     }
 
     @Test
-    public void userflow_checkout_nonexistent_book() {
+    public void checkout_nonexistent_book() {
         systemInMock.provideLines(MENU_CHECKOUT_BOOK, "Book that doesn't exist...", MENU_OPTION_QUIT);
         biblioteca.start();
 
@@ -91,11 +96,10 @@ public class UserflowTests extends BaseTest {
     }
 
     @Test
-    public void userflow_return_book() {
-        systemInMock.provideLines(MENU_RETURN_BOOK, BOOK_THE_HANDMAID_S_TALE, MENU_OPTION_QUIT);
+    public void return_the_handmaids_tale() {
+        systemInMock.provideLines(MENU_RETURN_BOOK, HANDMAIDS_TALE.getTitle(), MENU_OPTION_QUIT);
         biblioteca.start();
 
-        Book handmaidsTale = (Book) biblioteca.findRentable(BOOK_THE_HANDMAID_S_TALE);
-        assertFalse(handmaidsTale.isCheckedOut());
+        assertFalse(HANDMAIDS_TALE.isCheckedOut());
     }
 }

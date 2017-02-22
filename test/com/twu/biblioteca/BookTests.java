@@ -4,49 +4,55 @@ package com.twu.biblioteca;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Created by linus on 23/2/17.
  */
 public class BookTests extends BaseTest {
-    public static final String HITCHHIKER_S_GUIDE_TO_THE_GALAXY = "Hitchhiker's Guide to the Galaxy";
-    public static final String THE_HANDMAID_S_TALE = "The Handmaid's Tale";
-    public static final String THE_PRINCESS_BRIDE = "The Princess Bride";
-    public static final String THE_SPARROW = "The Sparrow";
-    public static final String ENDER_S_GAME = "Ender's Game";
-    public static final String THE_MOON_IS_A_HARSH_MISTRESS = "The Moon is a Harsh Mistress";
-    public static final String THE_NAME_OF_THE_WIND = "The Name of the Wind";
 
+    public static Book HITCHHIKERS_GUIDE;
+    public static Book PRINCESS_BRIDE;
+    public static Book SPARROW;
+    public static Book ENDERS_GAME;
+    public static Book MOON_MISTRESS;
+    public static Book NAME_OF_THE_WIND;
+    public static Book HANDMAIDS_TALE;
 
     protected void initialiseDummyData() {
         // add books
-        biblioteca.addRentable(new Book(HITCHHIKER_S_GUIDE_TO_THE_GALAXY, "Douglas Adams", "1979"));
-        biblioteca.addRentable(new Book(THE_PRINCESS_BRIDE, "William Goldman", "1973"));
-        biblioteca.addRentable(new Book(THE_SPARROW, "Mary Doria Russell", "1996"));
-        biblioteca.addRentable(new Book(ENDER_S_GAME, "Orson Scott Card", "1985"));
-        biblioteca.addRentable(new Book(THE_MOON_IS_A_HARSH_MISTRESS, "Robert A. Heinlein", "1966"));
-        biblioteca.addRentable(new Book(THE_NAME_OF_THE_WIND, "Patrick Rothfuss", "2007"));
+        HITCHHIKERS_GUIDE = new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams", "1979");
+        PRINCESS_BRIDE = new Book("The Princess Bride", "William Goldman", "1973");
+        SPARROW = new Book("The Sparrow", "Mary Doria Russell", "1996");
+        ENDERS_GAME = new Book("Ender's Game", "Orson Scott Card", "1985");
+        MOON_MISTRESS = new Book("The Moon is a Harsh Mistress", "Robert A. Heinlein", "1966");
+        NAME_OF_THE_WIND = new Book("The Name of the Wind", "Patrick Rothfuss", "2007");
+        HANDMAIDS_TALE = new Book("The Handmaid's Tale", "Margaret Atwood", "1986");
+        HANDMAIDS_TALE.checkout();
 
-        // create book that's checked out
-        Book handmaidsTale = new Book(THE_HANDMAID_S_TALE, "Margaret Atwood", "1986");
-        handmaidsTale.checkout();
-        biblioteca.addRentable(handmaidsTale);
+        biblioteca.addRentable(HITCHHIKERS_GUIDE);
+        biblioteca.addRentable(PRINCESS_BRIDE);
+        biblioteca.addRentable(SPARROW);
+        biblioteca.addRentable(ENDERS_GAME);
+        biblioteca.addRentable(MOON_MISTRESS);
+        biblioteca.addRentable(NAME_OF_THE_WIND);
+        biblioteca.addRentable(HANDMAIDS_TALE);
     }
 
     public void checkForBookTitleText() {
-        checkForString(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
-        checkForString(THE_PRINCESS_BRIDE);
-        checkForString(THE_SPARROW);
-        checkForString(ENDER_S_GAME);
-        checkForString(THE_MOON_IS_A_HARSH_MISTRESS);
-        checkForString(THE_NAME_OF_THE_WIND);
+        checkForString(HITCHHIKERS_GUIDE.getTitle());
+        checkForString(PRINCESS_BRIDE.getTitle());
+        checkForString(SPARROW.getTitle());
+        checkForString(ENDERS_GAME.getTitle());
+        checkForString(MOON_MISTRESS.getTitle());
+        checkForString(NAME_OF_THE_WIND.getTitle());
     }
 
     private void checkForAuthorAndYearText() {
-        checkForString("Patrick Rothfuss");
-        checkForString("2007");
-        checkForString("Douglas Adams");
-        checkForString("1979");
+        checkForString(NAME_OF_THE_WIND.getAuthor());
+        checkForString(NAME_OF_THE_WIND.getYearPublished());
+        checkForString(HITCHHIKERS_GUIDE.getAuthor());
+        checkForString(HITCHHIKERS_GUIDE.getYearPublished());
     }
 
     @Test
@@ -62,25 +68,25 @@ public class BookTests extends BaseTest {
     }
 
     @Test
-    public void checkout_hitchhikers_guide() {
+    public void check_print_filters_out_rented_items() {
         int oldOutputLength;
         int newOutputLength;
 
         biblioteca.printRentables();
         oldOutputLength = systemOutRule.getLog().split("\n").length;
-        checkForString(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
-        biblioteca.checkout(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
+        checkForString(HITCHHIKERS_GUIDE.getTitle());
+        HITCHHIKERS_GUIDE.checkout();
 
         systemOutRule.clearLog();
         biblioteca.printRentables();
         newOutputLength = systemOutRule.getLog().split("\n").length;
-        checkForMissingString(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
+        checkForMissingString(HITCHHIKERS_GUIDE.getTitle());
         assertEquals(oldOutputLength - 1, newOutputLength);
     }
 
     @Test
     public void check_for_friendly_message_when_checking_out_book() {
-        biblioteca.checkout(HITCHHIKER_S_GUIDE_TO_THE_GALAXY);
+        biblioteca.checkout(HITCHHIKERS_GUIDE.getTitle());
         checkForString("Thank you!");
         checkForString("Enjoy the book");
     }
@@ -93,13 +99,9 @@ public class BookTests extends BaseTest {
 
     @Test
     public void return_book_handmaids_tale() {
-        checkForMissingString(THE_HANDMAID_S_TALE);
-
-        // return book
-        systemOutRule.clearLog();
-        biblioteca.checkin(THE_HANDMAID_S_TALE);
-        biblioteca.printRentables();
-        checkForString(THE_HANDMAID_S_TALE);
+        checkForMissingString(HANDMAIDS_TALE.getTitle());
+        biblioteca.checkin(HANDMAIDS_TALE.getTitle());
+        assertFalse(HANDMAIDS_TALE.isCheckedOut());
     }
 
     @Test
@@ -110,7 +112,7 @@ public class BookTests extends BaseTest {
 
     @Test
     public void check_for_message_when_returning_handmaids_tale() {
-        biblioteca.checkin(THE_HANDMAID_S_TALE);
+        biblioteca.checkin(HANDMAIDS_TALE.getTitle());
         checkForString("Thank you for returning the book.");
     }
 

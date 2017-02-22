@@ -2,6 +2,9 @@ package com.twu.biblioteca;
 
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Created by linus on 23/2/17.
  */
@@ -43,11 +46,9 @@ public class MovieTests extends BaseTest {
     @Test
     public void return_the_station_agent() {
         STATION_AGENT.checkout();
-        biblioteca.printRentables();
-        checkForMissingString(STATION_AGENT.getTitle());
+        assertTrue("Station agent isn't checked out.", STATION_AGENT.isCheckedOut());
+        STATION_AGENT.checkout();
         biblioteca.checkin(STATION_AGENT.getTitle());
-
-        systemOutRule.clearLog();
-        checkForMissingString(STATION_AGENT.getTitle());
+        assertFalse("Station agent didn't check in.", STATION_AGENT.isCheckedOut());
     }
 }
