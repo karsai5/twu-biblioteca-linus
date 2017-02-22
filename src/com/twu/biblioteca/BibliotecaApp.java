@@ -83,6 +83,8 @@ public class BibliotecaApp {
 
     public void printCatalogue() {
         int numOfCheckedOutBooks = 0;
+
+        System.out.println("Books:");
         for (Book book : books) {
             if (!book.isCheckedOut()) {
                 System.out.println(book.toString());
@@ -90,6 +92,8 @@ public class BibliotecaApp {
                 ++numOfCheckedOutBooks;
             }
         }
+
+        System.out.println("Movies:");
         for (Movie movie : movies) {
             System.out.println(movie.toString());
         }

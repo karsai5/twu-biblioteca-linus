@@ -48,11 +48,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
-                "title='" + title + '\'' +
-                ", year='" + year + '\'' +
-                ", director='" + director + '\'' +
-                ", rating=" + rating +
-                '}';
+        String result = String.format("%-40.40s %-30.30s %-10.10s %-10.10s", "\"" + title + "\"", director, year, rating);
+        return result;
     }
 }
