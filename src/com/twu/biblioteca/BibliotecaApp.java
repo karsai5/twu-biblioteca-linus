@@ -156,7 +156,7 @@ public class BibliotecaApp {
         Book bookToReturn = findBook(title);
         if (bookToReturn != null) {
             System.out.println("Thank you for returning the book.");
-            bookToReturn.returnBook();
+            bookToReturn.checkin();
         } else {
             System.out.println("That is not a valid book to return.");
         }

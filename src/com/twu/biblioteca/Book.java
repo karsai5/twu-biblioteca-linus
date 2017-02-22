@@ -3,11 +3,9 @@ package com.twu.biblioteca;
 /**
  * Created by linus on 20/2/17.
  */
-public class Book {
+public class Book extends Rentable {
     private final String author;
-    private final String title;
     private final String yearPublished;
-    private boolean checkedOut = false;
 
     public Book(String title, String author, String yearPublished) {
         this.title = title;
@@ -21,28 +19,12 @@ public class Book {
         return result;
     }
 
-    public void returnBook() {
-        this.checkedOut = false;
-    }
-
     public String getAuthor() {
         return author;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     public String getYearPublished() {
         return yearPublished;
-    }
-
-    public boolean isCheckedOut() {
-        return checkedOut;
-    }
-
-    public void checkout() {
-        checkedOut = true;
     }
 
 }

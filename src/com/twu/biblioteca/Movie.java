@@ -3,10 +3,9 @@ package com.twu.biblioteca;
 /**
  * Created by linus on 22/2/17.
  */
-public class Movie {
+public class Movie extends Rentable {
     public static final int UNRATED = -1;
 
-    private final String title;
     private final String year;
     private final String director;
 
@@ -20,10 +19,7 @@ public class Movie {
     }
 
     public Movie(String title, String year, String director) {
-        this.title = title;
-        this.year = year;
-        this.director = director;
-        this.rating = UNRATED;
+        this(title, year, director, -1);
     }
 
     public String getTitle() {
