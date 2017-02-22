@@ -12,7 +12,6 @@ public class UserTests extends BaseTest {
     public String JEAN_PASSWORD = "password";
 
     @Override
-
     protected void initialiseDummyData() {
         JEAN = new User("222-4601", JEAN_PASSWORD);
         biblioteca.addUser(JEAN);
@@ -22,5 +21,11 @@ public class UserTests extends BaseTest {
     public void login_as_jean() {
         biblioteca.login(JEAN.getUsername(), JEAN_PASSWORD);
         assertEquals(biblioteca.getCurrentUser(), JEAN);
+    }
+
+    @Test
+    public void login_incorrectly() {
+        biblioteca.login("fakeuser", "fakepassword");
+        assertEquals(biblioteca.getCurrentUser(), null);
     }
 }
