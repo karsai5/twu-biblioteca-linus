@@ -25,13 +25,13 @@ public class BibliotecaExampleData {
         bibliotecaApp.addRentable(new Book(ENDER_S_GAME, "Orson Scott Card", "1985"));
         bibliotecaApp.addRentable(new Book(THE_MOON_IS_A_HARSH_MISTRESS, "Robert A. Heinlein", "1966"));
         bibliotecaApp.addRentable(new Book(THE_NAME_OF_THE_WIND, "Patrick Rothfuss", "2007"));
+        bibliotecaApp.addUser(JEAN);
 
         // create book that's checked out
         Book handmaidsTale = new Book(THE_HANDMAID_S_TALE, "Margaret Atwood", "1986");
-        handmaidsTale.checkout(null);
+        handmaidsTale.checkout(JEAN);
         bibliotecaApp.addRentable(handmaidsTale);
 
-        bibliotecaApp.addUser(JEAN);
     }
 
 }

@@ -57,4 +57,9 @@ public class UserTests extends BaseTest {
     public void throw_exception_when_making_user_with_incorrect_username_formatting() {
         new User("incorreclyFormattedUsername", "password");
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void throw_exception_when_trying_to_checkout_with_null_user() {
+        HITCHHIKERS_GUIDE.checkout(null);
+    }
 }

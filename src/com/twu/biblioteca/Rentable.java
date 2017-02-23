@@ -21,6 +21,9 @@ public abstract class Rentable {
     }
 
     public void checkout(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("You can't checkout a book with a null user.");
+        }
         owner = user;
     }
 

@@ -86,6 +86,7 @@ public class BookTests extends BaseTest {
 
     @Test
     public void check_for_friendly_message_when_checking_out_book() {
+        biblioteca.login(JEAN_USERNAME, JEAN_PASS);
         biblioteca.checkout(HITCHHIKERS_GUIDE.getTitle());
         checkForString("Thank you!");
         checkForString("Enjoy the book");
