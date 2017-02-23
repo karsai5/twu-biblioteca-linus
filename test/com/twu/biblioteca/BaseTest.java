@@ -14,6 +14,9 @@ import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emp
  */
 public abstract class BaseTest {
     protected BibliotecaApp biblioteca;
+    protected User JEAN;
+    protected String JEAN_USERNAME = "222-4601";
+    protected String JEAN_PASS = "password";
 
     protected abstract void initialiseDummyData();
 
@@ -30,6 +33,7 @@ public abstract class BaseTest {
     public void setUpStreams() {
         biblioteca = new BibliotecaApp();
         biblioteca.clearRentables();
+        biblioteca.addUser(JEAN = new User(JEAN_USERNAME, JEAN_PASS));
         initialiseDummyData();
     }
 

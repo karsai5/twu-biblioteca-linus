@@ -18,10 +18,8 @@ public class BookTests extends BaseTest {
     public static Book MOON_MISTRESS;
     public static Book NAME_OF_THE_WIND;
     public static Book HANDMAIDS_TALE;
-    public static User JEAN;
 
     protected void initialiseDummyData() {
-        JEAN = new User("222-4601", "password");
         // add books
         HITCHHIKERS_GUIDE = new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams", "1979");
         PRINCESS_BRIDE = new Book("The Princess Bride", "William Goldman", "1973");

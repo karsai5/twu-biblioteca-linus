@@ -22,11 +22,8 @@ public class UserflowTests extends BaseTest {
     public static Movie STATION_AGENT;
     public static Movie BRAVE;
 
-    public static User JEAN;
-
     @Override
     protected void initialiseDummyData() {
-        JEAN = new User("222-4601", "password");
         HITCHHIKERS_GUIDE = new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams", "1979");
         PRINCESS_BRIDE = new Book("The Princess Bride", "William Goldman", "1973");
         HANDMAIDS_TALE = new Book("The Handmaid's Tale", "Margaret Atwood", "1989");
