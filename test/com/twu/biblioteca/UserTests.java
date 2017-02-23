@@ -51,4 +51,9 @@ public class UserTests extends BaseTest {
         biblioteca.checkin(HITCHHIKERS_GUIDE.getTitle());
         assertEquals(null, HITCHHIKERS_GUIDE.getOwner());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void throw_exception_when_making_user_with_incorrect_username_formatting() {
+        new User("incorreclyFormattedUsername", "password");
+    }
 }

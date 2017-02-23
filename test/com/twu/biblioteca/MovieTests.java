@@ -16,7 +16,7 @@ public class MovieTests extends BaseTest {
 
     @Override
     protected void initialiseDummyData() {
-        JEAN = new User("222-24601", "password");
+        JEAN = new User("222-4601", "password");
         STATION_AGENT = new Movie("The Station Agent", "2003", "Tom McCarthy");
         BRAVE = new Movie("Brave", "2012", "Mark Andrews");
         biblioteca.addRentable(STATION_AGENT);
