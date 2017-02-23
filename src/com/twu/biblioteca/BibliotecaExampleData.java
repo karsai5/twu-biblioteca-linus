@@ -16,6 +16,8 @@ public class BibliotecaExampleData {
     public static final String THE_MOON_IS_A_HARSH_MISTRESS = "The Moon is a Harsh Mistress";
     public static final String THE_NAME_OF_THE_WIND = "The Name of the Wind";
 
+    public static final User JEAN = new User("222-4601", "password");
+
     public static void initialiseBookList(BibliotecaApp bibliotecaApp) {
         bibliotecaApp.addRentable(new Book(HITCHHIKER_S_GUIDE_TO_THE_GALAXY, "Douglas Adams", "1979"));
         bibliotecaApp.addRentable(new Book(THE_PRINCESS_BRIDE, "William Goldman", "1973"));
@@ -28,6 +30,8 @@ public class BibliotecaExampleData {
         Book handmaidsTale = new Book(THE_HANDMAID_S_TALE, "Margaret Atwood", "1986");
         handmaidsTale.checkout(null);
         bibliotecaApp.addRentable(handmaidsTale);
+
+        bibliotecaApp.addUser(JEAN);
     }
 
 }

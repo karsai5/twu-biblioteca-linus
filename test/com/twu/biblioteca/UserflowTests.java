@@ -36,6 +36,9 @@ public class UserflowTests extends BaseTest {
         biblioteca.addRentable(PRINCESS_BRIDE);
         biblioteca.addRentable(STATION_AGENT);
         biblioteca.addRentable(BRAVE);
+
+        // login so that tests don't rely on the user successfully logging in
+        biblioteca.login(JEAN_USERNAME, JEAN_PASS);
     }
 
     @Test
@@ -101,5 +104,24 @@ public class UserflowTests extends BaseTest {
         biblioteca.start();
 
         assertFalse(HANDMAIDS_TALE.isCheckedOut());
+    }
+
+    @Test
+    public void login_and_list_books() {
+        systemInMock.provideLines(JEAN_USERNAME, JEAN_PASS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
+        biblioteca.logOut();
+        biblioteca.start();
+
+        checkForString("Main Menu");
+    }
+
+    @Test
+    public void login_and_checkout_book() {
+        assertEquals(null, HITCHHIKERS_GUIDE.getOwner());
+        systemInMock.provideLines(JEAN_USERNAME, JEAN_PASS, MENU_CHECKOUT_BOOK, HITCHHIKERS_GUIDE.getTitle(), MENU_OPTION_QUIT);
+        biblioteca.logOut();
+        biblioteca.start();
+
+        assertEquals(JEAN, HITCHHIKERS_GUIDE.getOwner());
     }
 }

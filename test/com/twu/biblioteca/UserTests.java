@@ -33,6 +33,12 @@ public class UserTests extends BaseTest {
     }
 
     @Test
+    public void show_error_message_for_incorrect_username_and_password() {
+        biblioteca.login("fakeuser", "fakepassword");
+        checkForString("Username and/or password incorrect.");
+    }
+
+    @Test
     public void checkout_hitchhikers_guide_as_jean() {
         loginAsJean();
         biblioteca.checkout(HITCHHIKERS_GUIDE.getTitle());

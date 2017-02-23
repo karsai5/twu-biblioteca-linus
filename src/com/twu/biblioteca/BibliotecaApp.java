@@ -34,7 +34,18 @@ public class BibliotecaApp {
 
     public void start() {
         printWelcome();
-        startInteractiveMenu();
+        if (currentUser == null) {
+            startInteractiveLogin();
+        }
+        if (currentUser != null) {
+            startInteractiveMenu();
+        }
+    }
+
+    private void startInteractiveLogin() {
+        String username = getInputFromUser("Enter username:");
+        String password = getInputFromUser("Enter password:");
+        login(username, password);
     }
 
     private void startInteractiveMenu() {
@@ -64,16 +75,20 @@ public class BibliotecaApp {
         }
     }
 
-    private void returnRentableInteractively() {
+    private String getInputFromUser(String message) {
         Scanner reader = new Scanner(System.in);
-        System.out.println("Enter the name of the item you want to return:");
-        checkin(reader.nextLine());
+        System.out.println(message);
+        return reader.nextLine();
+    }
+
+    private void returnRentableInteractively() {
+        String title = getInputFromUser("Enter the name of the item you want to return:");
+        checkin(title);
     }
 
     private void checkoutRentableInteractively() {
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
-        System.out.println("Enter the name of the item you want to checkout:");
-        checkout(reader.nextLine());
+        String title = getInputFromUser("Enter the name of the item you want to checkout:");
+        checkout(title);
     }
 
     public void printWelcome() {
@@ -164,9 +179,16 @@ public class BibliotecaApp {
                 currentUser = user;
             }
         }
+        if (currentUser == null) {
+            System.out.println("Username and/or password incorrect.");
+        }
     }
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public void logOut() {
+        currentUser = null;
     }
 }
