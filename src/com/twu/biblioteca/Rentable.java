@@ -4,7 +4,6 @@ package com.twu.biblioteca;
  * Created by linus on 22/2/17.
  */
 public abstract class Rentable {
-    protected boolean checkedOut = false;
     protected String title;
     protected String rentableType;
 
@@ -23,16 +22,18 @@ public abstract class Rentable {
 
     public void checkout(User user) {
         owner = user;
-        checkedOut = true;
     }
 
     public void checkin() {
         owner = null;
-        checkedOut = false;
     }
 
     public boolean isCheckedOut() {
-        return checkedOut;
+        if (owner == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getTitle() {

@@ -45,11 +45,10 @@ public class MovieTests extends BaseTest {
 
     @Test
     public void checkout_the_station_agent() {
-        biblioteca.printRentables();
-        checkForString(STATION_AGENT.getTitle());
+        assertFalse(STATION_AGENT.isCheckedOut());
+        biblioteca.login(JEAN_USERNAME, JEAN_PASS);
         biblioteca.checkout(STATION_AGENT.getTitle());
 
-        systemOutRule.clearLog();
         biblioteca.printRentables();
         checkForMissingString(STATION_AGENT.getTitle());
     }
