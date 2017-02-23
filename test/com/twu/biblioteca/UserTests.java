@@ -62,4 +62,13 @@ public class UserTests extends BaseTest {
     public void throw_exception_when_trying_to_checkout_with_null_user() {
         HITCHHIKERS_GUIDE.checkout(null);
     }
+
+    @Test
+    public void print_jeans_user_information() {
+        loginAsJean();
+        biblioteca.printCurrentUsersDetails();
+        checkForString(JEAN_NAME);
+        checkForString(JEAN_EMAIL);
+        checkForString(JEAN_PHONE);
+    }
 }

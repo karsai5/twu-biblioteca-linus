@@ -191,4 +191,13 @@ public class BibliotecaApp {
     public void logOut() {
         currentUser = null;
     }
+
+    public void printCurrentUsersDetails() {
+        if (currentUser != null) {
+            System.out.printf("Library Number: %s\n", currentUser.getUsername());
+            System.out.printf("Name: %s\n", currentUser.getName());
+            System.out.printf("Email: %s\n", currentUser.getEmail());
+            System.out.printf("Phone: %s\n", currentUser.getPhone());
+        }
+    }
 }

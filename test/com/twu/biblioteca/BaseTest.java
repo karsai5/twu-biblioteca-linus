@@ -17,6 +17,9 @@ public abstract class BaseTest {
     protected User JEAN;
     protected String JEAN_USERNAME = "222-4601";
     protected String JEAN_PASS = "password";
+    protected String JEAN_NAME = "Jean Valjean";
+    protected String JEAN_EMAIL = "jean@lesmiserables.com";
+    protected String JEAN_PHONE = "04 1234 1234";
 
     protected abstract void initialiseDummyData();
 
@@ -33,7 +36,7 @@ public abstract class BaseTest {
     public void setUpStreams() {
         biblioteca = new BibliotecaApp();
         biblioteca.clearRentables();
-        biblioteca.addUser(JEAN = new User(JEAN_USERNAME, JEAN_PASS));
+        biblioteca.addUser(JEAN = new User(JEAN_USERNAME, JEAN_PASS, JEAN_NAME, JEAN_EMAIL, JEAN_PHONE));
         initialiseDummyData();
     }
 
