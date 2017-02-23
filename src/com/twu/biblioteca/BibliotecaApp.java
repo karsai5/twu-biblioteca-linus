@@ -138,7 +138,8 @@ public class BibliotecaApp {
         System.out.println("1. Print catalogue");
         System.out.println("2. Checkout item");
         System.out.println("3. Return item");
-        System.out.println("4. Quit");
+        System.out.println("4. Print your details");
+        System.out.println("5. Quit");
     }
 
     public void checkout(String title) {
