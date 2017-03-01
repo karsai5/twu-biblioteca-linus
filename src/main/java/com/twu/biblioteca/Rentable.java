@@ -5,19 +5,31 @@ package com.twu.biblioteca;
  */
 public abstract class Rentable {
     protected String title;
-    protected String rentableType;
+    protected String readableName;
+    public enum RentableType {
+        BOOK, MOVIE
+    }
+    protected RentableType rentableType;
 
     protected User owner = null;
 
-    public Rentable(String title, String type) {
+    public Rentable(String title, String readableName, RentableType rentableType) {
         this.title = title;
-        this.rentableType = type;
+        this.readableName = readableName;
+        this.rentableType = rentableType;
     }
 
     public abstract String toString();
 
-    public String getRentableType() {
-        return rentableType;
+    public String getReadableName() {
+        return readableName;
+    }
+
+    public boolean isRentableType(RentableType rentableType) {
+        if (this.rentableType == rentableType) {
+            return true;
+        }
+        return false;
     }
 
     public void checkout(User user) {

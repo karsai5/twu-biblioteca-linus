@@ -98,14 +98,25 @@ public class BibliotecaApp {
     }
 
     public void printRentables() {
-        printRentables(Rentable.class);
-    }
-
-    public void printRentables(Class filterClass) {
         int numOfCheckedOutItems = 0;
 
         for (Rentable rentable : rentables) {
-            if (filterClass.isInstance(rentable)) { // check it is part of filter class
+                if (!rentable.isCheckedOut()) {
+                    System.out.println(rentable.toString());
+                } else {
+                    ++numOfCheckedOutItems;
+                }
+        }
+
+        if (numOfCheckedOutItems > 0)
+            System.out.printf("Hiding %d item(s) because they're checked out.\n", numOfCheckedOutItems);
+    }
+
+    public void printRentables(Rentable.RentableType rentableType) {
+        int numOfCheckedOutItems = 0;
+
+        for (Rentable rentable : rentables) {
+            if (rentable.isRentableType(rentableType)) { // check it is part of filter class
                 if (!rentable.isCheckedOut()) {
                     System.out.println(rentable.toString());
                 } else {
@@ -145,7 +156,7 @@ public class BibliotecaApp {
         Rentable itemToCheckout = findRentable(title);
         if (itemToCheckout != null) {
             itemToCheckout.checkout(currentUser);
-            System.out.printf("Thank you! Enjoy the %s.\n", itemToCheckout.getRentableType());
+            System.out.printf("Thank you! Enjoy the %s.\n", itemToCheckout.getReadableName());
         } else {
             System.out.println("That item is not available.");
         }
@@ -162,7 +173,7 @@ public class BibliotecaApp {
     public void checkin(String title) {
         Rentable rentableToReturn = findRentable(title);
         if (rentableToReturn != null) {
-            System.out.printf("Thank you for returning the %s.\n", rentableToReturn.getRentableType());
+            System.out.printf("Thank you for returning the %s.\n", rentableToReturn.getReadableName());
             rentableToReturn.checkin();
         } else {
             System.out.println("That is not a valid item to return.");
