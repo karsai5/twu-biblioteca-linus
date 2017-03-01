@@ -3,3 +3,6 @@ out
 target
 *.un~
 .DS_Store
+.gradle
+build/
+biblioteca.iml
