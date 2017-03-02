@@ -123,11 +123,11 @@ public class BookTests extends BaseTest {
         checkForString("That is not a valid item to return.");
     }
 
-    @Test
-    public void check_that_filter_print_only_prints_books() throws Exception {
-        Movie movie = new Movie("Cool movie", "2017", "Really cool diretctor");
-        biblioteca.addRentable(movie);
-        biblioteca.printRentables(Rentable.RentableType.MOVIE);
-        checkForString("Cool movie");
-    }
+//    @Test
+//    public void check_that_filter_print_only_prints_books() throws Exception {
+//        Movie movie = new Movie("Cool movie", "2017", "Really cool diretctor");
+//        biblioteca.addRentable(movie);
+//        biblioteca.printRentables(Rentable.RentableType.MOVIE);
+//        checkForString("Cool movie");
+//    }
 }

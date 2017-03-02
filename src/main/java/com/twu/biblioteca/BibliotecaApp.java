@@ -1,9 +1,35 @@
 package com.twu.biblioteca;
 
+import jdk.nashorn.internal.codegen.CompilerConstants;
+
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 public class BibliotecaApp {
+
+    private class MenuOption {
+       String name;
+       Callable<Void> function;
+
+        public MenuOption(String name, Callable<Void> function) {
+            this.name = name;
+            this.function = function;
+        }
+        public void run() {
+            try {
+                function.call();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     private static final int MENU_OPTION_LIST_BOOKS = 1;
     private static final int MENU_CHECKOUT_BOOK = 2;
@@ -13,9 +39,41 @@ public class BibliotecaApp {
     private ArrayList<Rentable> rentables = new ArrayList<Rentable>();
     private ArrayList<User> users = new ArrayList<User>();
     private User currentUser = null;
+    private HashMap<Integer, MenuOption> menuOptions = new HashMap<Integer, MenuOption>();
 
     public BibliotecaApp() {
         BibliotecaExampleData.initialiseBookList(this);
+        createMenu();
+    }
+
+    private void createMenu() {
+        menuOptions.put(1, new MenuOption("Print catalogue", new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        printRentables();
+                        return null;
+                    }
+                }));
+        menuOptions.put(2, new MenuOption("Checkout book", new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                checkoutRentableInteractively();
+                return null;
+            }
+        }));
+        menuOptions.put(3, new MenuOption("Return book", new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                returnRentableInteractively();
+                return null;
+            }
+        }));
+        menuOptions.put(4, new MenuOption("Quit", new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                throw new Exception("End of application.");
+            }
+        }));
     }
 
     private void printInvalidMenuOption() {
@@ -55,22 +113,14 @@ public class BibliotecaApp {
             printMenu();
             int menuNumber = getMenuOption();
 
-            switch (menuNumber) {
-                case MENU_OPTION_LIST_BOOKS:
-                    printRentables();
-                    break;
-                case MENU_CHECKOUT_BOOK:
-                    checkoutRentableInteractively();
-                    break;
-                case MENU_OPTION_QUIT:
+            if (menuOptions.containsKey(menuNumber)) {
+                try {
+                    menuOptions.get(menuNumber).run();
+                } catch (Exception e){
                     running = false;
-                    break;
-                case MENU_RETURN_BOOK:
-                    returnRentableInteractively();
-                    break;
-                default:
-                    printInvalidMenuOption();
-
+                }
+            } else {
+                printInvalidMenuOption();
             }
         }
     }
@@ -144,12 +194,13 @@ public class BibliotecaApp {
     }
 
     public void printMenu() {
+
         System.out.println("Main Menu");
         System.out.println("=========");
-        System.out.println("1. Print catalogue");
-        System.out.println("2. Checkout item");
-        System.out.println("3. Return item");
-        System.out.println("4. Quit");
+
+        for (Map.Entry<Integer, MenuOption> menuEntry : menuOptions.entrySet()) {
+            System.out.println(menuEntry.getKey() + ". " + menuEntry.getValue().name);
+        }
     }
 
     public void checkout(String title) {

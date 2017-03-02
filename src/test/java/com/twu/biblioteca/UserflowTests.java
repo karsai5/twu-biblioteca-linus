@@ -1,6 +1,8 @@
 package com.twu.biblioteca;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -12,8 +14,8 @@ public class UserflowTests extends BaseTest {
 
     public static final String MENU_OPTION_LIST_BOOKS = "1";
     public static final String MENU_CHECKOUT_BOOK = "2";
-    public static final String MENU_OPTION_QUIT = "4";
     public static final String MENU_RETURN_BOOK = "3";
+    public static final String MENU_OPTION_QUIT = "4";
 
     public static Book HITCHHIKERS_GUIDE;
     public static Book HANDMAIDS_TALE;
