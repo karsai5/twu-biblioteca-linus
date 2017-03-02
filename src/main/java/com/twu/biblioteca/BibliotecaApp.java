@@ -5,6 +5,23 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
+    public class Input {
+        public String getInput(){
+            return getInput("");
+        }
+        public String getInput(String message) {
+            Scanner reader = new Scanner(System.in);
+            output.printOutput(message);
+            return reader.nextLine();
+        }
+    }
+
+    public class Output {
+        public void printOutput(String message) {
+            System.out.println(message);
+        }
+    }
+
     private static final int MENU_OPTION_LIST_BOOKS = 1;
     private static final int MENU_CHECKOUT_BOOK = 2;
     private static final int MENU_RETURN_BOOK = 3;
@@ -14,25 +31,34 @@ public class BibliotecaApp {
     private ArrayList<User> users = new ArrayList<User>();
     private User currentUser = null;
 
-    public BibliotecaApp() {
-        BibliotecaExampleData.initialiseBookList(this);
+    private Input input;
+    private Output output;
+
+    public void setInput(Input input) {
+        this.input = input;
     }
 
-    private void printInvalidMenuOption() {
-        System.out.println("Select a valid option!");
+    public void setOutput(Output output) {
+        this.output = output;
+    }
+
+    public BibliotecaApp() {
+        BibliotecaExampleData.initialiseBookList(this);
+
+        this.output = new Output();
+        this.input = new Input();
     }
 
     private int getMenuOption() {
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
-        System.out.println("Enter a number: ");
+        String menuOption = input.getInput("Enter a number: ");
         try {
-            return Integer.parseInt(reader.nextLine());
+            return Integer.parseInt(menuOption);
         } catch (Exception e) {
             return -1;
         }
     }
 
-    public void start() {
+    public void startInteractiveShell() {
         printWelcome();
         if (currentUser == null) {
             startInteractiveLogin();
@@ -69,16 +95,14 @@ public class BibliotecaApp {
                     returnRentableInteractively();
                     break;
                 default:
-                    printInvalidMenuOption();
+                    output.printOutput("Select a valid option!");
 
             }
         }
     }
 
     private String getInputFromUser(String message) {
-        Scanner reader = new Scanner(System.in);
-        System.out.println(message);
-        return reader.nextLine();
+        return input.getInput(message);
     }
 
     private void returnRentableInteractively() {
@@ -92,9 +116,9 @@ public class BibliotecaApp {
     }
 
     public void printWelcome() {
-        System.out.println("Welcome to Biblioteca, the home of books (and other things).");
-        System.out.println("Made by Linus Karsai for TWU.");
-        System.out.println("--");
+        output.printOutput("Welcome to Biblioteca, the home of books (and other things).");
+        output.printOutput("Made by Linus Karsai for TWU.");
+        output.printOutput("--");
     }
 
     public void printRentables() {
@@ -102,14 +126,14 @@ public class BibliotecaApp {
 
         for (Rentable rentable : rentables) {
                 if (!rentable.isCheckedOut()) {
-                    System.out.println(rentable.toString());
+                    output.printOutput(rentable.toString());
                 } else {
                     ++numOfCheckedOutItems;
                 }
         }
 
         if (numOfCheckedOutItems > 0)
-            System.out.printf("Hiding %d item(s) because they're checked out.\n", numOfCheckedOutItems);
+            output.printOutput(String.format("Hiding %d item(s) because they're checked out.\n", numOfCheckedOutItems));
     }
 
     public void printRentables(Rentable.RentableType rentableType) {
@@ -118,7 +142,7 @@ public class BibliotecaApp {
         for (Rentable rentable : rentables) {
             if (rentable.isRentableType(rentableType)) { // check it is part of filter class
                 if (!rentable.isCheckedOut()) {
-                    System.out.println(rentable.toString());
+                    output.printOutput(rentable.toString());
                 } else {
                     ++numOfCheckedOutItems;
                 }
@@ -126,7 +150,7 @@ public class BibliotecaApp {
         }
 
         if (numOfCheckedOutItems > 0)
-            System.out.printf("Hiding %d item(s) because they're checked out.\n", numOfCheckedOutItems);
+            output.printOutput(String.format("Hiding %d item(s) because they're checked out.\n", numOfCheckedOutItems));
     }
 
     public Rentable findRentable(String title) {
@@ -140,25 +164,25 @@ public class BibliotecaApp {
 
     public static void main(String[] args) {
         BibliotecaApp ba = new BibliotecaApp();
-        ba.start();
+        ba.startInteractiveShell();
     }
 
     public void printMenu() {
-        System.out.println("Main Menu");
-        System.out.println("=========");
-        System.out.println("1. Print catalogue");
-        System.out.println("2. Checkout item");
-        System.out.println("3. Return item");
-        System.out.println("4. Quit");
+        output.printOutput("Main Menu");
+        output.printOutput("=========");
+        output.printOutput("1. Print catalogue");
+        output.printOutput("2. Checkout item");
+        output.printOutput("3. Return item");
+        output.printOutput("4. Quit");
     }
 
     public void checkout(String title) {
         Rentable itemToCheckout = findRentable(title);
         if (itemToCheckout != null) {
             itemToCheckout.checkout(currentUser);
-            System.out.printf("Thank you! Enjoy the %s.\n", itemToCheckout.getReadableName());
+            output.printOutput(String.format("Thank you! Enjoy the %s.\n", itemToCheckout.getReadableName()));
         } else {
-            System.out.println("That item is not available.");
+            output.printOutput("That item is not available.");
         }
     }
 
@@ -173,10 +197,10 @@ public class BibliotecaApp {
     public void checkin(String title) {
         Rentable rentableToReturn = findRentable(title);
         if (rentableToReturn != null) {
-            System.out.printf("Thank you for returning the %s.\n", rentableToReturn.getReadableName());
+            output.printOutput(String.format("Thank you for returning the %s.\n", rentableToReturn.getReadableName()));
             rentableToReturn.checkin();
         } else {
-            System.out.println("That is not a valid item to return.");
+            output.printOutput("That is not a valid item to return.");
         }
     }
 
@@ -191,7 +215,7 @@ public class BibliotecaApp {
             }
         }
         if (currentUser == null) {
-            System.out.println("Username and/or password incorrect.");
+            output.printOutput("Username and/or password incorrect.");
         }
     }
 
@@ -205,10 +229,10 @@ public class BibliotecaApp {
 
     public void printCurrentUsersDetails() {
         if (currentUser != null) {
-            System.out.printf("Library Number: %s\n", currentUser.getUsername());
-            System.out.printf("Name: %s\n", currentUser.getName());
-            System.out.printf("Email: %s\n", currentUser.getEmail());
-            System.out.printf("Phone: %s\n", currentUser.getPhone());
+            output.printOutput(String.format("Library Number: %s\n", currentUser.getUsername()));
+            output.printOutput(String.format("Name: %s\n", currentUser.getName()));
+            output.printOutput(String.format("Email: %s\n", currentUser.getEmail()));
+            output.printOutput(String.format("Phone: %s\n", currentUser.getPhone()));
         }
     }
 }

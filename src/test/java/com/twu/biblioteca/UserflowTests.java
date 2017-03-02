@@ -44,7 +44,7 @@ public class UserflowTests extends BaseTest {
     @Test
     public void view_movies() {
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
-        biblioteca.start();
+        biblioteca.startInteractiveShell();
         checkForString(STATION_AGENT.getTitle());
         checkForString(BRAVE.getTitle());
     }
@@ -52,7 +52,7 @@ public class UserflowTests extends BaseTest {
     @Test
     public void show_menu_then_quit() throws Exception {
         systemInMock.provideLines(MENU_OPTION_QUIT);
-        biblioteca.start();
+        biblioteca.startInteractiveShell();
         checkForString("Main Menu");
         checkForString("Print catalogue");
     }
@@ -60,7 +60,7 @@ public class UserflowTests extends BaseTest {
     @Test
     public void view_books() throws Exception {
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
-        biblioteca.start();
+        biblioteca.startInteractiveShell();
         checkForString(HITCHHIKERS_GUIDE.getTitle());
         checkForString(PRINCESS_BRIDE.getTitle());
     }
@@ -68,7 +68,7 @@ public class UserflowTests extends BaseTest {
     @Test
     public void loop_the_main_menu_three_times() {
         systemInMock.provideLines(MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
-        biblioteca.start();
+        biblioteca.startInteractiveShell();
 
         assertEquals(stringCount("Main Menu"), 4);
     }
@@ -76,14 +76,14 @@ public class UserflowTests extends BaseTest {
     @Test
     public void select_an_incorrect_menu_option() throws Exception {
         systemInMock.provideLines("bananas", MENU_OPTION_QUIT);
-        biblioteca.start();
+        biblioteca.startInteractiveShell();
         checkForString("Select a valid option!");
     }
 
     @Test
     public void checkout_hitchhikers_guide() {
         systemInMock.provideLines(MENU_CHECKOUT_BOOK, HITCHHIKERS_GUIDE.getTitle(), MENU_OPTION_QUIT);
-        biblioteca.start();
+        biblioteca.startInteractiveShell();
 
         systemOutRule.clearLog();
         biblioteca.printRentables();
@@ -93,7 +93,7 @@ public class UserflowTests extends BaseTest {
     @Test
     public void checkout_nonexistent_book() {
         systemInMock.provideLines(MENU_CHECKOUT_BOOK, "Book that doesn't exist...", MENU_OPTION_QUIT);
-        biblioteca.start();
+        biblioteca.startInteractiveShell();
 
         checkForString("That item is not available.");
     }
@@ -101,7 +101,7 @@ public class UserflowTests extends BaseTest {
     @Test
     public void return_the_handmaids_tale() {
         systemInMock.provideLines(MENU_RETURN_BOOK, HANDMAIDS_TALE.getTitle(), MENU_OPTION_QUIT);
-        biblioteca.start();
+        biblioteca.startInteractiveShell();
 
         assertFalse(HANDMAIDS_TALE.isCheckedOut());
     }
@@ -110,7 +110,7 @@ public class UserflowTests extends BaseTest {
     public void login_and_list_books() {
         systemInMock.provideLines(JEAN_USERNAME, JEAN_PASS, MENU_OPTION_LIST_BOOKS, MENU_OPTION_QUIT);
         biblioteca.logOut();
-        biblioteca.start();
+        biblioteca.startInteractiveShell();
 
         checkForString("Main Menu");
     }
@@ -120,7 +120,7 @@ public class UserflowTests extends BaseTest {
         assertEquals(null, HITCHHIKERS_GUIDE.getOwner());
         systemInMock.provideLines(JEAN_USERNAME, JEAN_PASS, MENU_CHECKOUT_BOOK, HITCHHIKERS_GUIDE.getTitle(), MENU_OPTION_QUIT);
         biblioteca.logOut();
-        biblioteca.start();
+        biblioteca.startInteractiveShell();
 
         assertEquals(JEAN, HITCHHIKERS_GUIDE.getOwner());
     }
