@@ -38,6 +38,7 @@ public abstract class BaseTest {
         biblioteca.clearRentables();
         biblioteca.addUser(JEAN = new User(JEAN_USERNAME, JEAN_PASS, JEAN_NAME, JEAN_EMAIL, JEAN_PHONE));
         initialiseDummyData();
+        systemOutRule.clearLog();
     }
 
     protected void checkForString(String text) {
