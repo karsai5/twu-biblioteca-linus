@@ -27,6 +27,9 @@ public abstract class BaseTest {
     protected abstract void initialiseDummyData();
 
     public class MockInput extends BibliotecaApp.Input {
+        // Overrides the default Input used in BibliotecaApp
+        // so that multiple commands can be added and will be
+        // presented to the application on getInput()
         LinkedList<String> commands = new LinkedList<String>();
         public void addCommand(String command) {
             commands.addLast(command);
@@ -44,6 +47,9 @@ public abstract class BaseTest {
     }
 
     public class MockOutput extends BibliotecaApp.Output {
+        // Overrides the default Output used in BibliotecaApp
+        // Output is stored in an array list that can then be searched
+        // and counted
         public ArrayList<String> buffer = new ArrayList<String>();
         @Override
         public void printOutput(String message) {
