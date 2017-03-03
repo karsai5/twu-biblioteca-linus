@@ -5,18 +5,18 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    public class Input {
+    public static class Input {
         public String getInput(){
             return getInput("");
         }
         public String getInput(String message) {
             Scanner reader = new Scanner(System.in);
-            output.printOutput(message);
+            System.out.println(message);
             return reader.nextLine();
         }
     }
 
-    public class Output {
+    public static class Output {
         public void printOutput(String message) {
             System.out.println(message);
         }
