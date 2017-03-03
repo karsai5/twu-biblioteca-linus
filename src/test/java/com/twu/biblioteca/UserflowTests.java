@@ -27,7 +27,6 @@ public class UserflowTests extends BaseTest {
     @Rule
     public Timeout globalTimeout = Timeout.millis(200); // 10 seconds max per method tested
 
-
     @Override
     protected void initialiseDummyData() {
         HITCHHIKERS_GUIDE = new Book("Hitchhiker's Guide to the Galaxy", "Douglas Adams", "1979");

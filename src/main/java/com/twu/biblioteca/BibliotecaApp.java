@@ -1,26 +1,23 @@
 package com.twu.biblioteca;
 
-import jdk.nashorn.internal.codegen.CompilerConstants;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 public class BibliotecaApp {
 
 
     private class MenuOption {
-       String name;
-       Callable<Void> function;
+        String name;
+        Callable<Void> function;
 
         public MenuOption(String name, Callable<Void> function) {
             this.name = name;
             this.function = function;
         }
+
         public void run() {
             try {
                 function.call();
@@ -31,9 +28,10 @@ public class BibliotecaApp {
     }
 
     public static class Input {
-        public String getInput(){
+        public String getInput() {
             return getInput("");
         }
+
         public String getInput(String message) {
             Scanner reader = new Scanner(System.in);
             System.out.println(message);
@@ -60,6 +58,8 @@ public class BibliotecaApp {
     private Input input;
     private Output output;
 
+    private boolean running = true;
+
     public void setInput(Input input) {
         this.input = input;
     }
@@ -75,12 +75,12 @@ public class BibliotecaApp {
 
     private void createMenu() {
         menuOptions.put(1, new MenuOption("Print catalogue", new Callable<Void>() {
-                    @Override
-                    public Void call() throws Exception {
-                        printRentables();
-                        return null;
-                    }
-                }));
+            @Override
+            public Void call() throws Exception {
+                printRentables();
+                return null;
+            }
+        }));
         menuOptions.put(2, new MenuOption("Checkout book", new Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -98,7 +98,8 @@ public class BibliotecaApp {
         menuOptions.put(4, new MenuOption("Quit", new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                throw new Exception("End of application.");
+                running = false;
+                return null;
             }
         }));
 
@@ -133,7 +134,6 @@ public class BibliotecaApp {
 
     private void startInteractiveMenu() {
         // start menu loop
-        boolean running = true;
         while (running) {
             printMenu();
             int menuNumber = getMenuOption();
@@ -141,11 +141,11 @@ public class BibliotecaApp {
             if (menuOptions.containsKey(menuNumber)) {
                 try {
                     menuOptions.get(menuNumber).run();
-                } catch (Exception e){
+                } catch (Exception e) {
                     running = false;
                 }
             } else {
-                printInvalidMenuOption();
+                output.printOutput("Select a valid option!");
             }
         }
     }
@@ -174,11 +174,11 @@ public class BibliotecaApp {
         int numOfCheckedOutItems = 0;
 
         for (Rentable rentable : rentables) {
-                if (!rentable.isCheckedOut()) {
-                    output.printOutput(rentable.toString());
-                } else {
-                    ++numOfCheckedOutItems;
-                }
+            if (!rentable.isCheckedOut()) {
+                output.printOutput(rentable.toString());
+            } else {
+                ++numOfCheckedOutItems;
+            }
         }
 
         if (numOfCheckedOutItems > 0)
@@ -218,11 +218,11 @@ public class BibliotecaApp {
 
     public void printMenu() {
 
-        System.out.println("Main Menu");
-        System.out.println("=========");
+        output.printOutput("Main Menu");
+        output.printOutput("=========");
 
         for (Map.Entry<Integer, MenuOption> menuEntry : menuOptions.entrySet()) {
-            System.out.println(menuEntry.getKey() + ". " + menuEntry.getValue().name);
+            output.printOutput(menuEntry.getKey() + ". " + menuEntry.getValue().name);
         }
     }
 
