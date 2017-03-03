@@ -73,13 +73,13 @@ public class BookTests extends BaseTest {
         int newOutputLength;
 
         biblioteca.printRentables();
-        oldOutputLength = systemOutRule.getLog().split("\n").length;
+        oldOutputLength = output.countLines();
         checkForString(HITCHHIKERS_GUIDE.getTitle());
         HITCHHIKERS_GUIDE.checkout(JEAN);
 
-        systemOutRule.clearLog();
+        output.clear();
         biblioteca.printRentables();
-        newOutputLength = systemOutRule.getLog().split("\n").length;
+        newOutputLength = output.countLines();
         checkForMissingString(HITCHHIKERS_GUIDE.getTitle());
         assertEquals(oldOutputLength - 1, newOutputLength);
     }
