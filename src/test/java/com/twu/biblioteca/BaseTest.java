@@ -31,6 +31,7 @@ public abstract class BaseTest {
         // so that multiple commands can be added and will be
         // presented to the application on getInput()
         LinkedList<String> commands = new LinkedList<String>();
+
         public void addCommand(String command) {
             commands.addLast(command);
         }
@@ -51,21 +52,25 @@ public abstract class BaseTest {
         // Output is stored in an array list that can then be searched
         // and counted
         public ArrayList<String> buffer = new ArrayList<String>();
+
         @Override
         public void printOutput(String message) {
             buffer.add(message);
         }
+
         public boolean contains(String text) {
             for (String s : buffer) {
-               if (s.contains(text))  {
-                   return true;
-               }
+                if (s.contains(text)) {
+                    return true;
+                }
             }
             return false;
         }
+
         public void clear() {
             buffer.clear();
         }
+
         public int countLines() {
             return buffer.size();
         }
