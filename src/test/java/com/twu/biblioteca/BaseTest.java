@@ -55,6 +55,7 @@ public abstract class BaseTest {
         @Override
         public void printOutput(String message) {
             buffer.add(message);
+            System.out.println(message);
         }
 
         public boolean contains(String text) {
