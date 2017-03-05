@@ -15,7 +15,8 @@ public class UserflowTests extends BaseTest {
     public static final String MENU_OPTION_LIST_BOOKS = "1";
     public static final String MENU_CHECKOUT_BOOK = "2";
     public static final String MENU_RETURN_BOOK = "3";
-    public static final String MENU_OPTION_QUIT = "4";
+    public static final String MENU_PRINT_DETAILS = "4";
+    public static final String MENU_OPTION_QUIT = "5";
 
     public static Book HITCHHIKERS_GUIDE;
     public static Book HANDMAIDS_TALE;
@@ -125,12 +126,11 @@ public class UserflowTests extends BaseTest {
 
     @Test
     public void login_and_list_books() {
+        biblioteca.logOut();
         input.addCommand(JEAN_USERNAME);
         input.addCommand(JEAN_PASS);
         input.addCommand(MENU_OPTION_LIST_BOOKS);
         input.addCommand(MENU_OPTION_QUIT);
-
-        biblioteca.logOut();
         biblioteca.startInteractiveShell();
 
         checkForString("Main Menu");
@@ -149,5 +149,19 @@ public class UserflowTests extends BaseTest {
         biblioteca.startInteractiveShell();
 
         assertEquals(JEAN, HITCHHIKERS_GUIDE.getOwner());
+    }
+
+    @Test
+    public void login_as_jean_and_print_out_user_details() throws Exception {
+        biblioteca.logOut();
+        input.addCommand(JEAN_USERNAME);
+        input.addCommand(JEAN_PASS);
+        input.addCommand(MENU_PRINT_DETAILS);
+        input.addCommand(MENU_OPTION_QUIT);
+        biblioteca.startInteractiveShell();
+
+        checkForString(JEAN_NAME);
+        checkForString(JEAN_EMAIL);
+        checkForString(JEAN_PHONE);
     }
 }

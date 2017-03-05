@@ -95,7 +95,14 @@ public class BibliotecaApp {
                 return null;
             }
         }));
-        menuOptions.put(4, new MenuOption("Quit", new Callable<Void>() {
+        menuOptions.put(4, new MenuOption("Print details", new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                printCurrentUsersDetails();
+                return null;
+            }
+        }));
+        menuOptions.put(5, new MenuOption("Quit", new Callable<Void>() {
             @Override
             public Void call() throws Exception {
                 running = false;
