@@ -1,7 +1,6 @@
 package com.twu.biblioteca;
 
 import org.junit.Before;
-import org.junit.Rule;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
