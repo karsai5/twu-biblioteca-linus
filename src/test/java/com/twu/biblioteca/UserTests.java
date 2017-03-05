@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by linus on 23/2/17.
@@ -28,34 +29,39 @@ public class UserTests extends BaseTest {
 
     @Test
     public void login_incorrectly() {
-        biblioteca.login("fakeuser", "fakepassword");
+        biblioteca.login("", "");
         assertEquals(biblioteca.getCurrentUser(), null);
     }
 
     @Test
     public void show_error_message_for_incorrect_username_and_password() {
-        biblioteca.login("fakeuser", "fakepassword");
+        biblioteca.login("", "");
         checkForString("Username and/or password incorrect.");
     }
 
     @Test
     public void checkout_hitchhikers_guide_as_jean() {
         loginAsJean();
-        biblioteca.checkout(HITCHHIKERS_GUIDE.getTitle());
-        assertEquals(JEAN, HITCHHIKERS_GUIDE.getOwner());
+        Book hitchhikersGuide = new Book("The Hitchhikers Guide", "Douglas Adams", "1979");
+        biblioteca.addRentable(hitchhikersGuide);
+
+        biblioteca.checkout("The Hitchhikers Guide");
+        assertEquals(JEAN, hitchhikersGuide.getOwner());
     }
 
     @Test
     public void returning_book_should_clear_owner() {
-        HITCHHIKERS_GUIDE.setOwner(JEAN);
-        assertEquals(JEAN, HITCHHIKERS_GUIDE.getOwner());
-        biblioteca.checkin(HITCHHIKERS_GUIDE.getTitle());
-        assertEquals(null, HITCHHIKERS_GUIDE.getOwner());
+        Book hitchhikersGuide = new Book("The Hitchhikers Guide", "Douglas Adams", "1979");
+        hitchhikersGuide.setOwner(mock(User.class));
+        biblioteca.addRentable(hitchhikersGuide);
+
+        biblioteca.checkin("The Hitchhikers Guide");
+        assertEquals(null, hitchhikersGuide.getOwner());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void throw_exception_when_making_user_with_incorrect_username_formatting() {
-        new User("incorreclyFormattedUsername", "password");
+        new User("incorreclyFormattedUsername", "");
     }
 
     @Test(expected = IllegalArgumentException.class)

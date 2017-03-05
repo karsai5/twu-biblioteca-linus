@@ -279,10 +279,10 @@ public class BibliotecaApp {
 
     public void printCurrentUsersDetails() {
         if (currentUser != null) {
-            output.printOutput(String.format("Library Number: %s\n", currentUser.getUsername()));
-            output.printOutput(String.format("Name: %s\n", currentUser.getName()));
-            output.printOutput(String.format("Email: %s\n", currentUser.getEmail()));
-            output.printOutput(String.format("Phone: %s\n", currentUser.getPhone()));
+            output.printOutput(String.format("Library Number: %s", currentUser.getUsername()));
+            output.printOutput(String.format("Name: %s", currentUser.getName()));
+            output.printOutput(String.format("Email: %s", currentUser.getEmail()));
+            output.printOutput(String.format("Phone: %s", currentUser.getPhone()));
         }
     }
 }
