@@ -7,26 +7,18 @@ import org.junit.Test;
  */
 public class InterfaceTests extends BaseTest {
 
-    private void checkForWelcomeMessageText() {
-        checkForString("Welcome");
-        checkForString("Biblioteca");
-    }
-
-    public void checkForMainMenuText() {
-        checkForString("Main Menu");
-        checkForString("Print catalogue");
-    }
-
     @Test
     public void check_welcome_message_test() {
         biblioteca.printWelcome();
-        checkForWelcomeMessageText();
+        checkForString("Welcome");
+        checkForString("Biblioteca");
     }
 
     @Test
     public void check_menu_text() throws Exception {
         biblioteca.printMenu();
-        checkForMainMenuText();
+        checkForString("Main Menu");
+        checkForString("Print catalogue");
     }
 
     @Override
